@@ -1,0 +1,136 @@
+<template>
+  <div class="content">
+    <div class="section">
+      <el-button type="primary" @click="$router.push('/')">Home</el-button>
+      <el-button type="primary" @click="$router.go(-1)">Back</el-button>
+    </div>
+    <div class="section">
+      <div class="title">Item Info:</div>
+      <el-table :data="tableData" border stripe style="width: 100%">
+        <el-table-column prop="item_no" label="Reference No." width="150px"></el-table-column>
+        <el-table-column prop="item_name" label="Product Description"></el-table-column>
+        <el-table-column prop="program_belong" label="Item"></el-table-column>
+        <el-table-column prop="store_temperature" label="Storage Temperature"></el-table-column>
+      </el-table>
+      <div class="buttons">
+        <el-button type="primary" size="small" @click="showSaveItem = true">Input</el-button>
+      </div>
+    </div>
+    <div class="section">
+      <div class="title">Item Storage Info:</div>
+      <el-table :data="storageTableData" border stripe style="width: 100%">
+        <el-table-column prop="item_id" label="Item ID" width="80px"></el-table-column>
+        <el-table-column prop="store_position" label="Postion"></el-table-column>
+        <el-table-column prop="store_number" label="Number"></el-table-column>
+        <el-table-column label="Expired Date">
+          <template slot-scope="scope">
+            {{ dateFormatter(scope.row.expired_date) }}
+          </template>
+        </el-table-column>
+        <el-table-column prop="note" label="Note"></el-table-column>
+        <el-table-column label="Action" width="180px">
+          <template slot-scope="scope">
+            <div class="buttons">
+              <el-button type="primary" size="small" @click="shipItem(scope.row)">Output</el-button>
+              <el-button type="primary" size="small" :disabled="scope.row.store_number > 0" @click="deleteItem(scope.row)">Delete</el-button>
+            </div>
+          </template>
+        </el-table-column>
+      </el-table>
+      <save-item :visible.sync="showSaveItem" :itemId="$route.query.itemId ? $route.query.itemId.toString() : ''"
+                 @success="itemSaved">
+      </save-item>
+      <ship-item :visible.sync="showShipItem" :itemId="$route.query.itemId ? $route.query.itemId.toString() : ''"
+                 :id="selectedRow ? selectedRow.id.toString() : ''" @success="itemShipped">
+      </ship-item>
+    </div>
+  </div>
+</template>
+
+<script>
+import SaveItem from '@/components/SaveCargoItem'
+import ShipItem from '@/components/ShipCargoItem'
+
+const dateFormat = require('dateformat');
+
+export default {
+  components: {
+    SaveItem,
+    ShipItem,
+  },
+  data() {
+    return {
+      tableData: [],
+      storageTableData: [],
+      showSaveItem: false,
+      showShipItem: false,
+      selectedRow: null,
+    }
+  },
+  async mounted() {
+    await Promise.all([this.reloadItemData(), this.reloadStorageData()])
+  },
+  methods: {
+    dateFormatter(timestamp) {
+      const date = new Date(parseInt(timestamp))
+      return dateFormat(date, 'yyyy-mm-dd')
+    },
+    async reloadItemData() {
+      try {
+        const params = {
+          id: this.$route.query.itemId || '',
+        }
+        const response = await this.$http.get('/getItem', { params })
+        this.tableData = response.data.data
+      } catch (error) {
+        console.warn(error)
+      }
+    },
+    async reloadStorageData() {
+      try {
+        const params = {
+          itemId: this.$route.query.itemId,
+        }
+        const response = await this.$http.get('/getItemStorage', { params })
+        this.storageTableData = response.data.data
+      } catch (error) {
+        console.warn(error)
+      }
+    },
+    itemSaved() {
+      this.showSaveItem = false
+      this.$notify({
+        title: 'Success',
+        message: 'Create success',
+        type: 'success',
+      })
+      this.reloadStorageData()
+    },
+    itemShipped() {
+      this.showShipItem = false
+      this.$notify({
+        title: 'Success',
+        message: 'Ship Success',
+        type: 'success',
+      })
+      this.reloadData()
+    },
+    shipItem(row) {
+      this.selectedRow = row
+      this.showShipItem = true
+    },
+    deleteItem(row) {},
+  },
+};
+</script>
+
+<style scoped>
+.title {
+  padding-bottom: 10px;
+  font-size: 18px;
+  font-weight: bold;
+}
+.buttons {
+  display: flex;
+}
+</style>
