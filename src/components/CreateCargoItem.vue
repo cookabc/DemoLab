@@ -1,16 +1,16 @@
 <template>
   <el-dialog title="Create Cargo Item" :visible="visible" @update:visible="$emit('update:visible', $event)">
     <el-form :model="form" ref="form" label-position="left" label-width="160px" @submit.native.prevent>
-      <el-form-item label="Reference No." prop="itemNo">
+      <el-form-item label="Reference No." prop="itemNo" required>
         <el-input v-model="form.itemNo" clearable></el-input>
       </el-form-item>
-      <el-form-item label="Product Description" prop="itemName">
+      <el-form-item label="Product Description" prop="itemName" required>
         <el-input v-model="form.itemName" clearable></el-input>
       </el-form-item>
       <el-form-item label="Item" prop="programBelong">
         <el-input v-model="form.programBelong" clearable></el-input>
       </el-form-item>
-      <el-form-item label="Storage Temperature" prop="storeTemperature">
+      <el-form-item label="Storage Temperature" prop="storeTemperature" required>
         <el-input v-model="form.storeTemperature" clearable></el-input>
       </el-form-item>
       <el-form-item>
@@ -37,6 +37,10 @@ export default {
   },
   methods: {
     async createItem() {
+      const valid = await this.$refs['form'].validate()
+      if(!valid) {
+        return
+      }
       try {
         const payload = {
           itemNo: this.form.itemNo,

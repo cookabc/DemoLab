@@ -25,16 +25,16 @@
       <!-- <el-form-item label="Item ID" prop="itemId">
         <el-input v-model="form.itemId" clearable></el-input>
       </el-form-item> -->
-      <el-form-item label="Product Description" prop="itemName">
+      <el-form-item label="Product Description" prop="itemName" required>
         <el-input v-model="form.itemName" disabled clearable></el-input>
       </el-form-item>
-      <el-form-item label="Item" prop="programBelong">
+      <el-form-item label="Item" prop="programBelong" required>
         <el-input v-model="form.programBelong" disabled clearable></el-input>
       </el-form-item>
-      <el-form-item label="Temperature" prop="storeTemperature">
+      <el-form-item label="Temperature" prop="storeTemperature" required>
         <el-input v-model="form.storeTemperature" disabled clearable></el-input>
       </el-form-item>
-      <el-form-item label="Item Number" prop="itemNumber">
+      <el-form-item label="Item Number" prop="itemNumber" required>
         <el-input v-model="form.itemNumber" clearable></el-input>
       </el-form-item>
       <el-form-item>
@@ -88,6 +88,10 @@ export default {
       this.form.storeTemperature = row.store_temperature
     },
     async createSuiteComponent() {
+      const valid = await this.$refs['form'].validate()
+      if(!valid) {
+        return
+      }
       try {
         const payload = {
           suiteId: this.suiteId,
