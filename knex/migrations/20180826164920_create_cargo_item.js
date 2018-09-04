@@ -1,5 +1,5 @@
-exports.up = function (knex) {
-  return knex.schema.createTable('cargo_item', function (t) {
+exports.up = function(knex) {
+  return knex.schema.createTable('cargo_item', function(t) {
     t.increments('id').primary()
     t.string('item_no').notNullable()
     t.string('item_name').notNullable()
@@ -7,6 +7,6 @@ exports.up = function (knex) {
     t.string('store_temperature').notNullable()
   })
 }
-exports.down = function (knex) {
+exports.down = function(knex) {
   return knex.schema.dropTableIfExists('cargo_item')
 }
