@@ -10,6 +10,7 @@ module.exports = {
         store_temperature,
       })
       .debug()
+      .catch(error => error)
   },
   getItem({ id = '', item_no = '', item_name = '', program_belong = '', store_temperature = '' }) {
     console.log(`Query item: ${item_no} ${item_name} ${program_belong} ${store_temperature}`)
@@ -35,7 +36,7 @@ module.exports = {
       .select()
       .then(res => res)
   },
-  saveItem({ item_id = '', store_position = '', store_number = '', expired_date = '', note = '' }) {
+  saveItem({ item_id, store_position, store_number, expired_date, note = '' }) {
     console.log(`Save item: ${item_id}`)
     return knex('item_storage')
       .insert({
@@ -59,7 +60,7 @@ module.exports = {
       .select()
       .then(res => res)
   },
-  shipItem({ id = '', ship_number = 0 }) {
+  shipItem({ id, ship_number = 0 }) {
     console.log(`Ship item: ${id}`)
     return knex('item_storage')
       .debug()
@@ -67,14 +68,7 @@ module.exports = {
       .decrement('store_number', ship_number)
       .then(res => res)
   },
-  shipRecords({
-    item_id = '',
-    item_storage_id = '',
-    initiator_name = '',
-    initiator_pos_dep = '',
-    initiator_usage = '',
-    create_date = new Date(),
-  }) {
+  shipRecords({ item_id, item_storage_id, initiator_name, initiator_pos_dep, initiator_usage, create_date = new Date() }) {
     console.log(`Record shipping: ${item_id}`)
     return knex('item_ship_records')
       .insert({
