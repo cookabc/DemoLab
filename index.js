@@ -13,7 +13,14 @@ app.post('/api/createItem', (req, res) => {
       program_belong: req.body.programBelong,
       store_temperature: req.body.storeTemperature,
     })
-    .then(() => res.sendStatus(200))
+    .then(data => {
+      console.log(data)
+      if (data.code) {
+        res.status(400).json({ code: data.code, data: null, message: 'Bad Request' })
+      } else {
+        res.status(200).json({ code: 'SUCCESS', data: null, message: 'OK' })
+      }
+    })
 })
 app.get('/api/getItem', (req, res) => {
   storeItem
@@ -25,7 +32,6 @@ app.get('/api/getItem', (req, res) => {
       store_temperature: req.query.storeTemperature,
     })
     .then(data => {
-      console.log({ data })
       if (data) {
         res.setHeader('Content-Type', 'application/json')
         res.send(JSON.stringify({ data }))
@@ -40,7 +46,6 @@ app.get('/api/getItemStorage', (req, res) => {
       item_id: req.query.itemId,
     })
     .then(data => {
-      console.log({ data })
       if (data) {
         res.setHeader('Content-Type', 'application/json')
         res.send(JSON.stringify({ data }))
@@ -99,7 +104,6 @@ app.get('/api/getSuite', (req, res) => {
       program_belong: req.query.programBelong,
     })
     .then(data => {
-      console.log({ data })
       if (data) {
         res.setHeader('Content-Type', 'application/json')
         res.send(JSON.stringify({ data }))
@@ -123,7 +127,6 @@ app.get('/api/getSuiteComponent', (req, res) => {
       suite_id: req.query.suiteId,
     })
     .then(data => {
-      console.log({ data })
       if (data) {
         res.setHeader('Content-Type', 'application/json')
         res.send(JSON.stringify({ data }))
@@ -138,7 +141,6 @@ app.get('/api/getSuiteComponentItemCount', (req, res) => {
       suite_id: req.query.suiteId,
     })
     .then(data => {
-      console.log({ data })
       if (data) {
         res.setHeader('Content-Type', 'application/json')
         res.send(JSON.stringify({ data }))
