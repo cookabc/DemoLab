@@ -12,7 +12,7 @@
           <el-form :model="itemForm" ref="itemForm" label-position="left" label-width="120px" @submit.native.prevent>
             <el-form-item label="Reference No." prop="itemNo">
               <el-input v-model="itemForm.itemNo" clearable>
-                <el-button slot="append" icon="el-icon-search" @click="reloadItemData"></el-button>
+                <!-- <el-button slot="append" icon="el-icon-search" @click="reloadItemData"></el-button> -->
               </el-input>
             </el-form-item>
             <el-form-item label="Product Description" prop="itemName">
@@ -41,7 +41,7 @@
           <el-form :model="suiteForm" ref="suiteForm" label-position="left" label-width="120px"  @submit.native.prevent>
             <el-form-item label="Suite No." prop="suiteNo">
               <el-input v-model="suiteForm.suiteNo" clearable>
-                <el-button slot="append" icon="el-icon-search" @click="reloadSuiteData"></el-button>
+                <!-- <el-button slot="append" icon="el-icon-search" @click="reloadSuiteData"></el-button> -->
               </el-input>
             </el-form-item>
             <el-form-item label="Suite Name" prop="itemName">
