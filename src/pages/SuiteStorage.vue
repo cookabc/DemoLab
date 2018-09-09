@@ -34,9 +34,10 @@
         <el-table-column prop="item_number" label="Item Number"></el-table-column>
         <el-table-column prop="program_belong" label="Item"></el-table-column>
         <el-table-column prop="store_temperature" label="Storage Temperature"></el-table-column>
-        <el-table-column label="Action">
+        <el-table-column label="Action" width="210px">
           <template slot-scope="scope">
             <el-button type="primary" size="small" @click="viewStorage(scope.row)">View Storage</el-button>
+            <el-button type="primary" size="small" @click="deleteComponentConfirm(scope.row)">Delete</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -52,6 +53,7 @@ export default {
       suiteTableData: [],
       storagetableData: [],
       comparedDate: new Date().getTime(),
+      selectedRow: null,
     }
   },
   computed: {
@@ -136,8 +138,38 @@ export default {
     viewStorage(row) {
       this.$router.push({ name: 'ItemStorage', query: { itemId: row.item_id }})
     },
+    deleteComponentConfirm(row) {
+      this.$confirm('此操作将永久删除该记录, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.deleteComponent(row)
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        })
+      })
+    },
+    async deleteComponent(row) {
+      try {
+        const payload = {
+          suite_id: row.suite_id,
+          item_id: row.item_id,
+        }
+        await this.$http.post('/deleteSuiteComponent', payload)
+        await this.reloadStorageData()
+        this.$message({
+          type: 'success',
+          message: '删除成功!'
+        })
+      } catch (error) {
+        console.warn(error)
+      }
+    },
   },
-};
+}
 </script>
 
 <style scoped>

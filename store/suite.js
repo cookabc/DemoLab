@@ -85,4 +85,13 @@ module.exports = {
       .then(res => res)
       .catch(error => error)
   },
+  deleteSuiteComponent({ suite_id, item_id }) {
+    console.log(`Delete component: ${item_id}`)
+    return knex('suite_item_relation')
+      .debug()
+      .where({ suite_id, item_id })
+      .del()
+      .then(res => res)
+      .catch(error => error)
+  },
 }

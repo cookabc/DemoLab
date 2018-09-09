@@ -214,6 +214,20 @@ app.get('/api/getSuiteComponentItemCount', (req, res) => {
       }
     })
 })
+app.post('/api/deleteSuiteComponent', (req, res) => {
+  storeSuite
+    .deleteSuiteComponent({
+      suite_id: req.body.suite_id,
+      item_id: req.body.item_id,
+    })
+    .then(data => {
+      if (data.code) {
+        res.status(400).json({ code: data.code, data: null, message: 'Bad Request' })
+      } else {
+        res.status(200).json({ code: 'SUCCESS', data: null, message: 'OK' })
+      }
+    })
+})
 app.listen(7555, () => {
   console.log('Server running on http://localhost:7555')
 })
