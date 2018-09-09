@@ -86,6 +86,19 @@ module.exports = {
       .then(res => res)
       .catch(error => error)
   },
+  updateItemStorage({ id, store_position, store_number, expired_date, note = '' }) {
+    console.log(`Update item: ${id}`)
+    return knex('item_storage')
+      .where({ id })
+      .update({
+        store_position,
+        store_number,
+        expired_date,
+        note,
+      })
+      .debug()
+      .catch(error => error)
+  },
   deleteItemStorage({ id }) {
     console.log(`Delete item: ${id}`)
     return knex('item_storage')
