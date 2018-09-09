@@ -28,10 +28,11 @@
           </template>
         </el-table-column>
         <el-table-column prop="note" label="Note"></el-table-column>
-        <el-table-column label="Action" width="180px">
+        <el-table-column label="Action" width="260px">
           <template slot-scope="scope">
             <div class="buttons">
               <el-button type="primary" size="small" @click="shipItem(scope.row)">Output</el-button>
+              <el-button type="primary" size="small" @click="updateItem(scope.row)">Update</el-button>
               <el-button type="primary" size="small" :disabled="scope.row.store_number > 0" @click="deleteStorageConfirm(scope.row)">Delete</el-button>
             </div>
           </template>
@@ -40,6 +41,8 @@
       <save-item :visible.sync="showSaveItem" :itemId="$route.query.itemId ? $route.query.itemId.toString() : ''"
                  @success="itemSaved">
       </save-item>
+      <update-item v-if="selectedRow" :visible.sync="showUpdateItem"  :rowData="selectedRow" @resetRow="resetRow" @success="itemUpdated">
+      </update-item>
       <ship-item :visible.sync="showShipItem" :itemId="$route.query.itemId ? $route.query.itemId.toString() : ''"
                  :id="selectedRow ? selectedRow.id.toString() : ''" @success="itemShipped">
       </ship-item>
@@ -49,6 +52,7 @@
 
 <script>
 import SaveItem from '@/components/SaveCargoItem'
+import UpdateItem from '@/components/UpdateCargoStorage'
 import ShipItem from '@/components/ShipCargoItem'
 
 const dateFormat = require('dateformat');
@@ -56,6 +60,7 @@ const dateFormat = require('dateformat');
 export default {
   components: {
     SaveItem,
+    UpdateItem,
     ShipItem,
   },
   data() {
@@ -63,6 +68,7 @@ export default {
       tableData: [],
       storageTableData: [],
       showSaveItem: false,
+      showUpdateItem: false,
       showShipItem: false,
       selectedRow: null,
     }
@@ -97,6 +103,9 @@ export default {
         console.warn(error)
       }
     },
+    resetRow() {
+      this.selectedRow = null
+    },
     itemSaved() {
       this.showSaveItem = false
       this.$notify({
@@ -106,6 +115,23 @@ export default {
       })
       this.reloadStorageData()
     },
+    updateItem(row) {
+      this.selectedRow = row
+      this.showUpdateItem = true
+    },
+    itemUpdated() {
+      this.showUpdateItem = false
+      this.$notify({
+        title: 'Success',
+        message: 'Update success',
+        type: 'success',
+      })
+      this.reloadStorageData()
+    },
+    shipItem(row) {
+      this.selectedRow = row
+      this.showShipItem = true
+    },
     itemShipped() {
       this.showShipItem = false
       this.$notify({
@@ -113,13 +139,9 @@ export default {
         message: 'Ship Success',
         type: 'success',
       })
-      this.reloadData()
+      this.reloadStorageData()
     },
-    shipItem(row) {
-      this.selectedRow = row
-      this.showShipItem = true
-    },
-    deleteStorageConfirm(row) {
+   deleteStorageConfirm(row) {
       this.$confirm('此操作将永久删除该库存记录, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',

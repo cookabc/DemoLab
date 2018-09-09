@@ -109,6 +109,23 @@ app.post('/api/shipItem', (req, res) => {
         })
     })
 })
+app.post('/api/updateItemStorage', (req, res) => {
+  storeItem
+    .updateItemStorage({
+      id: req.body.id,
+      store_position: req.body.storePosition,
+      store_number: req.body.storeNumber,
+      expired_date: req.body.expiredDate,
+      note: req.body.note,
+    })
+    .then(data => {
+      if (data.code) {
+        res.status(400).json({ code: data.code, data: null, message: 'Bad Request' })
+      } else {
+        res.status(200).json({ code: 'SUCCESS', data: null, message: 'OK' })
+      }
+    })
+})
 app.post('/api/deleteItemStorage', (req, res) => {
   storeItem
     .deleteItemStorage({
