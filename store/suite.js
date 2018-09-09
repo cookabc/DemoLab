@@ -32,15 +32,16 @@ module.exports = {
     if (suite_no) {
       queryString.suite_no = suite_no
     }
-    if (suite_name) {
-      queryString.suite_name = suite_name
-    }
+    // if (suite_name) {
+    //   queryString.suite_name = suite_name
+    // }
     if (program_belong) {
       queryString.program_belong = program_belong
     }
     return knex('cargo_suite')
       .debug()
-      .where(queryString)
+      .where('suite_name', 'like', `%${suite_name}%`)
+      .andWhere(queryString)
       .select()
       .then(res => res)
       .catch(error => error)
