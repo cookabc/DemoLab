@@ -85,6 +85,15 @@ module.exports = {
       .then(res => res)
       .catch(error => error)
   },
+  deleteItemStorage({ id }) {
+    console.log(`Delete item: ${id}`)
+    return knex('item_storage')
+      .debug()
+      .where('id', id)
+      .del()
+      .then(res => res)
+      .catch(error => error)
+  },
   shipRecords({ item_id, item_storage_id, initiator_name, initiator_pos_dep, initiator_usage, create_date = new Date() }) {
     console.log(`Record shipping: ${item_id}`)
     return knex('item_ship_records')

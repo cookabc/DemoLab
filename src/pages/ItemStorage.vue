@@ -32,7 +32,7 @@
           <template slot-scope="scope">
             <div class="buttons">
               <el-button type="primary" size="small" @click="shipItem(scope.row)">Output</el-button>
-              <el-button type="primary" size="small" :disabled="scope.row.store_number > 0" @click="deleteItem(scope.row)">Delete</el-button>
+              <el-button type="primary" size="small" :disabled="scope.row.store_number > 0" @click="deleteStorageConfirm(scope.row)">Delete</el-button>
             </div>
           </template>
         </el-table-column>
@@ -119,7 +119,35 @@ export default {
       this.selectedRow = row
       this.showShipItem = true
     },
-    deleteItem(row) {},
+    deleteStorageConfirm(row) {
+      this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.dedeleteStorage(row)
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        })
+      })
+    },
+    async dedeleteStorage(row) {
+      try {
+        const payload = {
+          id: row.id,
+        }
+        await this.$http.post('/deleteItemStorage', payload)
+        await this.reloadStorageData()
+        this.$message({
+          type: 'success',
+          message: '删除成功!'
+        })
+      } catch (error) {
+        console.warn(error)
+      }
+    },
   },
 };
 </script>

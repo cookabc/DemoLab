@@ -9,6 +9,8 @@ import {
   Input,
   Menu,
   MenuItem,
+  Message,
+  MessageBox,
   Notification,
   Option,
   Pagination,
@@ -38,4 +40,6 @@ Vue.use(Select)
 Vue.use(Table)
 Vue.use(TableColumn)
 
+Vue.prototype.$confirm = MessageBox.confirm
+Vue.prototype.$message = Message
 Vue.prototype.$notify = Notification
