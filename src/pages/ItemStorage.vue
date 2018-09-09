@@ -5,7 +5,7 @@
       <el-button type="primary" @click="$router.go(-1)">Back</el-button>
     </div>
     <div class="section">
-      <div class="title">Item Info:</div>
+      <div class="title">Product Info:</div>
       <el-table :data="tableData" border stripe style="width: 100%">
         <el-table-column prop="item_no" label="Reference No." width="150px"></el-table-column>
         <el-table-column prop="item_name" label="Product Description"></el-table-column>
@@ -17,7 +17,7 @@
       </div>
     </div>
     <div class="section">
-      <div class="title">Item Storage Info:</div>
+      <div class="title">Product Storage Info:</div>
       <el-table :data="storageTableData" border stripe style="width: 100%">
         <!-- <el-table-column prop="item_id" label="Item ID" width="80px"></el-table-column> -->
         <el-table-column prop="store_position" label="Postion"></el-table-column>
@@ -136,7 +136,7 @@ export default {
       this.showShipItem = false
       this.$notify({
         title: 'Success',
-        message: 'Ship Success',
+        message: 'Output Success',
         type: 'success',
       })
       this.reloadStorageData()

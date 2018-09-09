@@ -12,15 +12,15 @@
         value-format="timestamp">
       </el-date-picker>
       <el-table :data="tableData" border stripe style="width: 100%">
-        <el-table-column prop="suite_no" label="Suite No."></el-table-column>
-        <el-table-column prop="suite_name" label="Suite Name"></el-table-column>
-        <el-table-column prop="program_belong" label="Item"></el-table-column>
-        <el-table-column label="Valid Suite Count">
+        <el-table-column prop="suite_no" label="Reference No." width='120px'></el-table-column>
+        <el-table-column prop="suite_name" label="Combo Kit Description"></el-table-column>
+        <el-table-column prop="program_belong" label="Item" width='80px'></el-table-column>
+        <el-table-column label="Valid" width='80px'>
           <template slot-scope="scope">
             {{ validSuiteCount }}
           </template>
         </el-table-column>
-        <el-table-column label="Expired Suite Count">
+        <el-table-column label="Expired" width='80px'>
           <template slot-scope="scope">
             {{ expiredSuiteCount }}
           </template>
@@ -30,10 +30,10 @@
     <div class="section">
       <el-table :data="suiteTableData" border stripe style="width: 100%">
         <el-table-column prop="item_no" label="Reference No."></el-table-column>
-        <el-table-column prop="item_name" label="Product Description"></el-table-column>
+        <el-table-column prop="item_name" label="Product Description" width='160px'></el-table-column>
         <el-table-column prop="item_number" label="Item Number"></el-table-column>
         <el-table-column prop="program_belong" label="Item"></el-table-column>
-        <el-table-column prop="store_temperature" label="Storage Temperature"></el-table-column>
+        <el-table-column prop="store_temperature" label="Storage Temperature" width='170px'></el-table-column>
         <el-table-column label="Action" width="210px">
           <template slot-scope="scope">
             <el-button type="primary" size="small" @click="viewStorage(scope.row)">View Storage</el-button>
