@@ -22,6 +22,23 @@ app.post('/api/createItem', (req, res) => {
       }
     })
 })
+app.post('/api/updateItem', (req, res) => {
+  storeItem
+    .updateItem({
+      id: req.body.id,
+      item_no: req.body.itemNo,
+      item_name: req.body.itemName,
+      program_belong: req.body.programBelong,
+      store_temperature: req.body.storeTemperature,
+    })
+    .then(data => {
+      if (data.code) {
+        res.status(400).json({ code: data.code, data: null, message: 'Bad Request' })
+      } else {
+        res.status(200).json({ code: 'SUCCESS', data: null, message: 'OK' })
+      }
+    })
+})
 app.get('/api/getItem', (req, res) => {
   storeItem
     .getItem({
@@ -93,7 +110,30 @@ app.post('/api/createSuite', (req, res) => {
       suite_name: req.body.suiteName,
       program_belong: req.body.programBelong,
     })
-    .then(() => res.sendStatus(200))
+    .then(data => {
+      if (data.code) {
+        res.status(400).json({ code: data.code, data: null, message: 'Bad Request' })
+      } else {
+        res.status(200).json({ code: 'SUCCESS', data: null, message: 'OK' })
+      }
+    })
+})
+app.post('/api/updateSuite', (req, res) => {
+  console.log(req.body)
+  storeSuite
+    .updateSuite({
+      id: req.body.id,
+      suite_no: req.body.suiteNo,
+      suite_name: req.body.suiteName,
+      program_belong: req.body.programBelong,
+    })
+    .then(data => {
+      if (data.code) {
+        res.status(400).json({ code: data.code, data: null, message: 'Bad Request' })
+      } else {
+        res.status(200).json({ code: 'SUCCESS', data: null, message: 'OK' })
+      }
+    })
 })
 app.get('/api/getSuite', (req, res) => {
   storeSuite

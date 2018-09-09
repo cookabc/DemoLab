@@ -12,6 +12,19 @@ module.exports = {
       .debug()
       .catch(error => error)
   },
+  updateItem({ id, item_no, item_name, program_belong, store_temperature }) {
+    console.log(`Update item ${item_name}`)
+    return knex('cargo_item')
+      .where({ id })
+      .update({
+        item_no,
+        item_name,
+        program_belong,
+        store_temperature,
+      })
+      .debug()
+      .catch(error => error)
+  },
   getItem({ id = '', item_no = '', item_name = '', program_belong = '', store_temperature = '' }) {
     console.log(`Query item: ${item_no} ${item_name} ${program_belong} ${store_temperature}`)
     let queryString = {}
@@ -35,6 +48,7 @@ module.exports = {
       .where(queryString)
       .select()
       .then(res => res)
+      .catch(error => error)
   },
   saveItem({ item_id, store_position, store_number, expired_date, note = '' }) {
     console.log(`Save item: ${item_id}`)
@@ -47,6 +61,7 @@ module.exports = {
         note,
       })
       .debug()
+      .catch(error => error)
   },
   getItemStorage({ item_id = '' }) {
     console.log(`Query item storage: ${item_id}`)
@@ -59,6 +74,7 @@ module.exports = {
       .where(queryString)
       .select()
       .then(res => res)
+      .catch(error => error)
   },
   shipItem({ id, ship_number = 0 }) {
     console.log(`Ship item: ${id}`)
@@ -67,6 +83,7 @@ module.exports = {
       .where('id', id)
       .decrement('store_number', ship_number)
       .then(res => res)
+      .catch(error => error)
   },
   shipRecords({ item_id, item_storage_id, initiator_name, initiator_pos_dep, initiator_usage, create_date = new Date() }) {
     console.log(`Record shipping: ${item_id}`)
@@ -80,5 +97,6 @@ module.exports = {
         create_date,
       })
       .debug()
+      .catch(error => error)
   },
 }
