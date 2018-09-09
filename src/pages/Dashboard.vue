@@ -10,12 +10,12 @@
         <div class="section">
           <div class="title">搜索小货号：</div>
           <el-form :model="itemForm" ref="itemForm" label-position="left" label-width="120px" @submit.native.prevent>
-            <el-form-item label="Reference No." prop="itemNo" required>
+            <el-form-item label="Reference No." prop="itemNo">
               <el-input v-model="itemForm.itemNo" clearable>
                 <el-button slot="append" icon="el-icon-search" @click="reloadItemData"></el-button>
               </el-input>
             </el-form-item>
-            <!-- <el-form-item label="Product Description" prop="itemName">
+            <el-form-item label="Product Description" prop="itemName">
               <el-input v-model="itemForm.itemName" clearable></el-input>
             </el-form-item>
             <el-form-item label="Item" prop="programBelong">
@@ -26,7 +26,7 @@
             </el-form-item>
             <el-form-item>
               <el-button type="primary" @click="reloadItemData">Search</el-button>
-            </el-form-item> -->
+            </el-form-item>
           </el-form>
         </div>
       </el-col>
@@ -39,12 +39,12 @@
         <div class="section">
           <div class="title">搜索大货号：</div>
           <el-form :model="suiteForm" ref="suiteForm" label-position="left" label-width="120px"  @submit.native.prevent>
-            <el-form-item label="Suite No." prop="suiteNo" required>
+            <el-form-item label="Suite No." prop="suiteNo">
               <el-input v-model="suiteForm.suiteNo" clearable>
                 <el-button slot="append" icon="el-icon-search" @click="reloadSuiteData"></el-button>
               </el-input>
             </el-form-item>
-            <!-- <el-form-item label="Suite Name" prop="itemName">
+            <el-form-item label="Suite Name" prop="itemName">
               <el-input v-model="suiteForm.suiteName" clearable></el-input>
             </el-form-item>
             <el-form-item label="Item" prop="programBelong">
@@ -52,7 +52,7 @@
             </el-form-item>
             <el-form-item>
               <el-button type="primary" @click="reloadSuiteData">Search</el-button>
-            </el-form-item> -->
+            </el-form-item>
           </el-form>
         </div>
       </el-col>
@@ -96,15 +96,15 @@ export default {
       })
     },
     async reloadItemData() {
-      const valid = await this.$refs['itemForm'].validate()
-      if(!valid) {
-        return
-      }
+      // const valid = await this.$refs['itemForm'].validate()
+      // if(!valid) {
+      //   return
+      // }
       const query = {
         itemNo: this.itemForm.itemNo,
-        // itemName: this.itemForm.itemName,
-        // programBelong: this.itemForm.programBelong,
-        // storeTemperature: this.itemForm.storeTemperature,
+        itemName: this.itemForm.itemName,
+        programBelong: this.itemForm.programBelong,
+        storeTemperature: this.itemForm.storeTemperature,
       }
       this.$router.push({ name: 'CargoItem', query })
     },
@@ -117,14 +117,14 @@ export default {
       })
     },
     async reloadSuiteData() {
-      const valid = await this.$refs['suiteForm'].validate()
-      if(!valid) {
-        return
-      }
+      // const valid = await this.$refs['suiteForm'].validate()
+      // if(!valid) {
+      //   return
+      // }
       const query = {
         suiteNo: this.suiteForm.suiteNo,
-        // suiteName: this.suiteForm.suiteName,
-        // programBelong: this.suiteForm.programBelong,
+        suiteName: this.suiteForm.suiteName,
+        programBelong: this.suiteForm.programBelong,
       }
       this.$router.push({ name: 'CargoSuite', query })
     },

@@ -6,44 +6,49 @@
     </div>
     <div class="section">
       <el-table :data="tableData" border stripe style="width: 100%">
-        <el-table-column prop="id" label="ID" width="50px"></el-table-column>
+        <!-- <el-table-column prop="id" label="ID" width="50px"></el-table-column> -->
         <el-table-column prop="suite_no" label="Suite No." width="100px"></el-table-column>
         <el-table-column prop="suite_name" label="Suite Name"></el-table-column>
         <el-table-column prop="program_belong" label="Item"></el-table-column>
-        <el-table-column label="Action">
+        <el-table-column label="Storage">
           <template slot-scope="scope">
             <el-button type="primary" size="small" @click="viewDetails(scope.row)">Details</el-button>
           </template>
         </el-table-column>
-        <el-table-column label="Action">
+        <el-table-column label="Action" width='250px'>
           <template slot-scope="scope">
+            <el-button type="primary" size="small" @click="showUpdate(scope.row)">Update</el-button>
             <el-button type="primary" size="small" @click="createSuiteComponent(scope.row)">Create Component</el-button>
           </template>
         </el-table-column>
       </el-table>
+      <update-suite v-if="selectedRow" :visible.sync="showUpdateSuite" :rowData="selectedRow" @resetRow="resetRow" @success="suiteUpdated"></update-suite>
       <create-component :visible.sync="showCreateComponentView" :suiteId="selectedRow ? selectedRow.id.toString() : ''" @success="componentCreated"></create-component>
     </div>
   </div>
 </template>
 
 <script>
+import UpdateSuite from '@/components/UpdateCargoSuite'
 import CreateComponent from '@/components/CreateSuiteComponent'
 
 export default {
   components: {
+    UpdateSuite,
     CreateComponent,
   },
   data() {
     return {
       tableData: [],
-      showCreateComponentView: false,
+      suiteForm: {
+        suiteNo: '',
+        suiteName: '',
+        programBelong: '',
+      },
       selectedRow: null,
+      showUpdateSuite: false,
+      showCreateComponentView: false,
     }
-  },
-  computed: {
-    totalSuites() {
-      return this.tableData ? this.tableData.length : 0
-    },
   },
   async mounted() {
     this.reloadData()
@@ -62,17 +67,21 @@ export default {
         console.warn(error)
       }
     },
-    createSuite() {
-      this.showCreateSuiteView = true
+    resetRow() {
+      this.selectedRow = null
     },
-    suiteCreated() {
-      this.showCreateSuiteView = false
+    showUpdate(row) {
+      this.selectedRow = row
+      this.showUpdateSuite = true
+    },
+    async suiteUpdated() {
+      this.showUpdateSuite = false
       this.$notify({
         title: 'Success',
-        message: 'Create success',
+        message: 'Update success',
         type: 'success',
       })
-      this.reloadData()
+      await this.reloadData()
     },
     createSuiteComponent(row) {
       this.selectedRow = row

@@ -9,6 +9,19 @@ module.exports = {
         program_belong,
       })
       .debug()
+      .catch(error => error)
+  },
+  updateSuite({ id, suite_no, suite_name, program_belong }) {
+    console.log(`Update Suite ${suite_name}`)
+    return knex('cargo_suite')
+      .where({ id })
+      .update({
+        suite_no,
+        suite_name,
+        program_belong,
+      })
+      .debug()
+      .catch(error => error)
   },
   getSuite({ id = '', suite_no = '', suite_name = '', program_belong = '' }) {
     console.log(`Query suite: ${suite_no} ${suite_name} ${program_belong}`)
@@ -30,6 +43,7 @@ module.exports = {
       .where(queryString)
       .select()
       .then(res => res)
+      .catch(error => error)
   },
   createSuiteComponent({ suite_id, item_id, item_number }) {
     console.log(`Add suite_item_relation: ${suite_id} composed of ${item_number} ${item_id}`)
@@ -40,6 +54,7 @@ module.exports = {
         item_number,
       })
       .debug()
+      .catch(error => error)
   },
   getSuiteComponent({ suite_id = '' }) {
     console.log(`Query suite component: ${suite_id}`)
@@ -53,6 +68,7 @@ module.exports = {
       .select()
       .innerJoin('cargo_item', 'suite_item_relation.item_id', 'cargo_item.id')
       .then(res => res)
+      .catch(error => error)
   },
   getSuiteComponentItemCount({ suite_id = '' }) {
     console.log(`Query suite component: ${suite_id}`)
@@ -66,5 +82,6 @@ module.exports = {
       .select()
       .innerJoin('item_storage', 'suite_item_relation.item_id', 'item_storage.item_id')
       .then(res => res)
+      .catch(error => error)
   },
 }
