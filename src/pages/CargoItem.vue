@@ -11,7 +11,7 @@
         <el-table-column prop="item_name" label="Product Description"></el-table-column>
         <el-table-column prop="program_belong" label="Item"></el-table-column>
         <el-table-column prop="store_temperature" label="Storage Temperature"></el-table-column>
-        <el-table-column label="Action">
+        <el-table-column label="Action" width="230px">
           <template slot-scope="scope">
             <el-button type="primary" size="small" @click="showUpdate(scope.row)">Update</el-button>
             <el-button type="primary" size="small" @click="viewStorage(scope.row)">View Storage</el-button>

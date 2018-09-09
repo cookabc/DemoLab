@@ -3,13 +3,13 @@
     <el-row :gutter="20">
       <el-col :span="12">
         <div class="section">
-          <div class="title">创建小货号：</div>
-          <el-button type="primary" @click="showCreateItem = true">Create Cargo Item</el-button>
+          <div class="title">Create Product</div>
+          <el-button type="primary" @click="showCreateItem = true">Create</el-button>
           <create-item :visible.sync="showCreateItem" @success="itemCreated"></create-item>
         </div>
         <div class="section">
-          <div class="title">搜索小货号：</div>
-          <el-form :model="itemForm" ref="itemForm" label-position="left" label-width="120px" @submit.native.prevent>
+          <div class="title">Search Product</div>
+          <el-form :model="itemForm" ref="itemForm" label-position="left" label-width="180px" @submit.native.prevent>
             <el-form-item label="Reference No." prop="itemNo">
               <el-input v-model="itemForm.itemNo" clearable>
                 <!-- <el-button slot="append" icon="el-icon-search" @click="reloadItemData"></el-button> -->
@@ -32,19 +32,19 @@
       </el-col>
       <el-col :span="12">
         <div class="section">
-          <div class="title">创建大货号：</div>
-          <el-button type="primary" @click="showCreateSuite = true">Create Cargo Suite</el-button>
+          <div class="title">Create Combo Kit</div>
+          <el-button type="primary" @click="showCreateSuite = true">Create</el-button>
           <create-suite :visible.sync="showCreateSuite" @success="suiteCreated"></create-suite>
         </div>
         <div class="section">
-          <div class="title">搜索大货号：</div>
-          <el-form :model="suiteForm" ref="suiteForm" label-position="left" label-width="120px"  @submit.native.prevent>
-            <el-form-item label="Suite No." prop="suiteNo">
+          <div class="title">Search Combo Kit</div>
+          <el-form :model="suiteForm" ref="suiteForm" label-position="left" label-width="180px"  @submit.native.prevent>
+            <el-form-item label="Reference No." prop="suiteNo">
               <el-input v-model="suiteForm.suiteNo" clearable>
                 <!-- <el-button slot="append" icon="el-icon-search" @click="reloadSuiteData"></el-button> -->
               </el-input>
             </el-form-item>
-            <el-form-item label="Suite Name" prop="itemName">
+            <el-form-item label="Combo Kit Description" prop="itemName">
               <el-input v-model="suiteForm.suiteName" clearable></el-input>
             </el-form-item>
             <el-form-item label="Item" prop="programBelong">

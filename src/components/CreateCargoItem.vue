@@ -1,5 +1,5 @@
 <template>
-  <el-dialog title="Create Cargo Item" :visible="visible" @update:visible="$emit('update:visible', $event)">
+  <el-dialog title="Create Product" :visible="visible" @update:visible="$emit('update:visible', $event)">
     <el-form :model="form" ref="form" label-position="left" label-width="160px" @submit.native.prevent>
       <el-form-item label="Reference No." prop="itemNo" required>
         <el-input v-model="form.itemNo" clearable></el-input>
@@ -14,7 +14,7 @@
         <el-input v-model="form.storeTemperature" clearable></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="createItem">Create Cargo Item</el-button>
+        <el-button type="primary" @click="createItem">Create</el-button>
       </el-form-item>
     </el-form>
   </el-dialog>

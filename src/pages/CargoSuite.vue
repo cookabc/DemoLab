@@ -7,10 +7,10 @@
     <div class="section">
       <el-table :data="tableData" border stripe style="width: 100%">
         <!-- <el-table-column prop="id" label="ID" width="50px"></el-table-column> -->
-        <el-table-column prop="suite_no" label="Suite No." width="100px"></el-table-column>
-        <el-table-column prop="suite_name" label="Suite Name"></el-table-column>
-        <el-table-column prop="program_belong" label="Item"></el-table-column>
-        <el-table-column label="Storage">
+        <el-table-column prop="suite_no" label="Reference No." width="120px"></el-table-column>
+        <el-table-column prop="suite_name" label="Combo Kit Description"></el-table-column>
+        <el-table-column prop="program_belong" label="Item" width='100px'></el-table-column>
+        <el-table-column label="Storage" width='100px'>
           <template slot-scope="scope">
             <el-button type="primary" size="small" @click="viewDetails(scope.row)">Details</el-button>
           </template>

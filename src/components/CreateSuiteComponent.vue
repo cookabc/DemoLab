@@ -1,5 +1,5 @@
 <template>
-  <el-dialog title="Create Suite Component" :visible="visible" @update:visible="$emit('update:visible', $event)">
+  <el-dialog title="Create Combo Kit Component" :visible="visible" @update:visible="$emit('update:visible', $event)">
     <el-form :model="itemForm" ref="itemForm" label-position="left" label-width="160px" @submit.native.prevent>
       <el-form-item label="Reference No." prop="itemNo" required>
         <el-input v-model="itemForm.itemNo" clearable>
@@ -38,7 +38,7 @@
         <el-input v-model="form.itemNumber" clearable></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="createSuiteComponent">Create Suite Component</el-button>
+        <el-button type="primary" @click="createSuiteComponent">Create</el-button>
       </el-form-item>
     </el-form>
   </el-dialog>
