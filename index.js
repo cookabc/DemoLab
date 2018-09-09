@@ -80,7 +80,13 @@ app.post('/api/saveItem', (req, res) => {
       expired_date: req.body.expiredDate,
       note: req.body.note,
     })
-    .then(() => res.sendStatus(200))
+    .then(data => {
+      if (data.code) {
+        res.status(400).json({ code: data.code, data: null, message: 'Bad Request' })
+      } else {
+        res.status(200).json({ code: 'SUCCESS', data: null, message: 'OK' })
+      }
+    })
 })
 app.post('/api/shipItem', (req, res) => {
   storeItem
@@ -101,6 +107,19 @@ app.post('/api/shipItem', (req, res) => {
         .then(() => {
           res.sendStatus(200)
         })
+    })
+})
+app.post('/api/deleteItemStorage', (req, res) => {
+  storeItem
+    .deleteItemStorage({
+      id: req.body.id,
+    })
+    .then(data => {
+      if (data.code) {
+        res.status(400).json({ code: data.code, data: null, message: 'Bad Request' })
+      } else {
+        res.status(200).json({ code: 'SUCCESS', data: null, message: 'OK' })
+      }
     })
 })
 app.post('/api/createSuite', (req, res) => {
@@ -159,7 +178,13 @@ app.post('/api/createSuiteComponent', (req, res) => {
       item_id: req.body.itemId,
       item_number: req.body.itemNumber,
     })
-    .then(() => res.sendStatus(200))
+    .then(data => {
+      if (data.code) {
+        res.status(400).json({ code: data.code, data: null, message: 'Bad Request' })
+      } else {
+        res.status(200).json({ code: 'SUCCESS', data: null, message: 'OK' })
+      }
+    })
 })
 app.get('/api/getSuiteComponent', (req, res) => {
   storeSuite
