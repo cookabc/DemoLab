@@ -19,7 +19,7 @@
     <div class="section">
       <div class="title">Item Storage Info:</div>
       <el-table :data="storageTableData" border stripe style="width: 100%">
-        <el-table-column prop="item_id" label="Item ID" width="80px"></el-table-column>
+        <!-- <el-table-column prop="item_id" label="Item ID" width="80px"></el-table-column> -->
         <el-table-column prop="store_position" label="Postion"></el-table-column>
         <el-table-column prop="store_number" label="Number"></el-table-column>
         <el-table-column label="Expired Date">
@@ -92,7 +92,7 @@ export default {
           itemId: this.$route.query.itemId,
         }
         const response = await this.$http.get('/getItemStorage', { params })
-        this.storageTableData = response.data.data
+        this.storageTableData = response.data.data.sort((a,b) => a.expired_date > b.expired_date)
       } catch (error) {
         console.warn(error)
       }
