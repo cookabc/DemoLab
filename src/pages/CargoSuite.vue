@@ -42,11 +42,6 @@ export default {
   data() {
     return {
       tableData: [],
-      suiteForm: {
-        suiteNo: '',
-        suiteName: '',
-        programBelong: '',
-      },
       selectedRow: null,
       showUpdateSuite: false,
       showCreateComponentView: false,

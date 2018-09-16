@@ -1,5 +1,9 @@
 <template>
   <div class="content">
+    <div class="section">
+      <div class="title">Ship Records</div>
+      <el-button type="primary" @click="$router.push({ name: 'ShipRecords' })">Display</el-button>
+    </div>
     <el-row :gutter="20">
       <el-col :span="12">
         <div class="section">

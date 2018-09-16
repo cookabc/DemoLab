@@ -1,5 +1,5 @@
 <template>
-  <el-dialog title="Input" :visible="visible" @update:visible="$emit('update:visible', $event)">
+  <el-dialog title="Update" :visible="visible" @update:visible="$emit('update:visible', $event)" @close="$emit('resetRow')">
     <el-form :model="form" ref="form" class="form" label-position="left" label-width="160px" @submit.native.prevent>
       <el-form-item label="Store Position" prop="storePosition" required>
         <el-input v-model="form.storePosition" clearable></el-input>
@@ -14,7 +14,7 @@
         <el-input v-model="form.note" clearable></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="saveItem">Input</el-button>
+        <el-button type="primary" @click="updateItemStorage">Update</el-button>
       </el-form-item>
     </el-form>
   </el-dialog>
@@ -24,35 +24,33 @@
 export default {
   props: {
     visible: Boolean,
-    itemId: String,
+    rowData: Object,
   },
   data() {
     return {
       form: {
-        storePosition: '',
-        storeNumber: '',
-        expiredDate: '',
-        note: '',
+        storePosition: this.rowData.store_position || '',
+        storeNumber: this.rowData.store_number || '',
+        expiredDate: this.rowData.expired_date || '',
+        note: this.rowData.note || '',
       },
     }
   },
   methods: {
-    async saveItem() {
+    async updateItemStorage() {
       const valid = await this.$refs['form'].validate()
       if(!valid) {
         return
       }
       try {
         const payload = {
-          itemId: this.itemId,
+          id: this.rowData.id,
           storePosition: this.form.storePosition,
           storeNumber: this.form.storeNumber,
           expiredDate: this.form.expiredDate,
           note: this.form.note,
         }
-        console.log(payload)
-        await this.$http.post('/saveItem', payload)
-        this.$refs.form.resetFields()
+        await this.$http.post('/updateItemStorage', payload)
         this.$emit('success')
       } catch (error) {
         console.warn(error)
