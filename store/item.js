@@ -34,18 +34,13 @@ module.exports = {
     if (item_no) {
       queryString.item_no = item_no
     }
-    // if (item_name) {
-    //   queryString.item_name = item_name
-    // }
-    if (program_belong) {
-      queryString.program_belong = program_belong
-    }
     if (store_temperature) {
       queryString.store_temperature = store_temperature
     }
     return knex('cargo_item')
       .debug()
       .where('item_name', 'like', `%${item_name}%`)
+      .andWhere('program_belong', 'like', `%${program_belong}%`)
       .andWhere(queryString)
       .select()
       .then(res => res)
