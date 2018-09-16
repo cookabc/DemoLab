@@ -10,6 +10,8 @@
         <el-table-column prop="suite_no" label="Reference No." width="120px"></el-table-column>
         <el-table-column prop="suite_name" label="Combo Kit Description"></el-table-column>
         <el-table-column prop="program_belong" label="Item" width='100px'></el-table-column>
+        <el-table-column prop="safe_number" label="Safety Storage" width='140px'
+                         :filters="[{text: 'Has safety storage', value: 0}]" :filter-method="filterHandler"></el-table-column>
         <el-table-column label="Storage" width='100px'>
           <template slot-scope="scope">
             <el-button type="primary" size="small" @click="viewDetails(scope.row)">Details</el-button>
@@ -94,6 +96,10 @@ export default {
         message: 'Create success',
         type: 'success',
       })
+    },
+    filterHandler(value, row, column) {
+      const property = column['property'];
+      return row[property] > value;
     },
     viewDetails(row) {
       this.$router.push({ name: 'SuiteStorage', query: { suiteId: row.id }})
