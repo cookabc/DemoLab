@@ -11,6 +11,8 @@
         <el-table-column prop="item_name" label="Product Description"></el-table-column>
         <el-table-column prop="program_belong" label="Item"></el-table-column>
         <el-table-column prop="store_temperature" label="Storage Temperature"></el-table-column>
+        <el-table-column prop="safe_number" label="Safety Storage"
+                         :filters="[{text: 'Has safety storage', value: 0}]" :filter-method="filterHandler"></el-table-column>
         <el-table-column label="Action" width="230px">
           <template slot-scope="scope">
             <el-button type="primary" size="small" @click="showUpdate(scope.row)">Update</el-button>
@@ -76,6 +78,10 @@ export default {
         type: 'success',
       })
       await this.reloadItemData()
+    },
+    filterHandler(value, row, column) {
+      const property = column['property'];
+      return row[property] > value;
     },
     viewStorage(row) {
       this.$router.push({ name: 'ItemStorage', query: { itemId: row.id }})
