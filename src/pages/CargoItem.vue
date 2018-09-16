@@ -1,8 +1,14 @@
 <template>
   <div class="content">
-    <div class="section">
-      <el-button type="primary" @click="$router.push('/')">Home</el-button>
-      <el-button type="primary" @click="$router.go(-1)">Back</el-button>
+    <div class="section button-flex">
+      <div>
+        <el-button type="primary" @click="$router.push('/')">Home</el-button>
+        <el-button type="primary" @click="$router.go(-1)">Back</el-button>
+      </div>
+      <div>
+        <el-button type="primary" @click="toCSV(csvData, headerEnum)">Export Storage</el-button>
+        <el-button type="primary" @click="toCSV(csvSafeStockData, headerSafeStockEnum)">Export Safe Stock</el-button>
+      </div>
     </div>
     <div class="section">
       <el-table :data="tableData" border stripe style="width: 100%">
@@ -33,6 +39,8 @@
 <script>
 import UpdateItem from '@/components/UpdateCargoItem'
 
+const dateFormat = require('dateformat')
+
 export default {
   components: {
     UpdateItem,
@@ -42,12 +50,56 @@ export default {
       tableData: [],
       selectedRow: null,
       showUpdateItem: false,
+      csvData: [],
+      headerEnum: [
+        {item_no: 'Reference No.'},
+        {item_name: 'Product Descriptioin'},
+        {program_belong: 'Item'},
+        {store_temperature: 'Storage Temperature'},
+        {store_position: 'Position'},
+        {store_number: 'Number'},
+        {expired_date: 'Expired Date'},
+        {note: 'Note'},
+      ],
+      headerSafeStockEnum: [
+        {item_no: 'Reference No.'},
+        {item_name: 'Product Descriptioin'},
+        {safe_number: 'Safe Stock Number'},
+        {effective: 'effective'},
+        {expired: 'expired'},
+      ],
     }
   },
+  computed: {
+    csvSafeStockData() {
+      const safeStockList = []
+      this.tableData.forEach(i => {
+        const targetList = this.csvData.filter(j => j.item_id === i.id)
+        const availableCount = targetList.filter(k => {
+          return !k.expired_date || k.expired_date >= (new Date()).getTime()
+        }).reduce((a ,b) => a + b.store_number, 0)
+        const expiredCount = targetList.filter(k =>  {
+          return k.expired_date && k.expired_date < (new Date()).getTime()
+        }).reduce((a ,b) => a + b.store_number, 0)
+        safeStockList.push({
+          item_no: i.item_no,
+          item_name: i.item_name,
+          safe_number: i.safe_number,
+          effective: availableCount,
+          expired: expiredCount,
+        })
+      })
+      return safeStockList
+    },
+  },
   async mounted() {
-    await this.reloadItemData()
+    await Promise.all([this.reloadItemData(), this.getItemAndStorage()])
   },
   methods: {
+    dateFormatter(timestamp) {
+      const date = new Date(parseInt(timestamp))
+      return dateFormat(date, 'yyyy-mm-dd')
+    },
     async reloadItemData() {
       try {
         const params = {
@@ -114,11 +166,27 @@ export default {
         console.warn(error)
       }
     },
-    toCSV(data) {
+    async getItemAndStorage() {
+      try {
+        const response = await this.$http.get('/getItemAndStorage')
+        this.csvData = response.data.data
+      } catch (error) {
+        console.warn(error)
+      }
+    },
+    toCSV(data, headerEnum) {
+      console.log(data)
+      const headerKey = headerEnum.map(i => Object.keys(i)[0])
+      const headerValue = headerEnum.map(i => Object.values(i)[0])
       const replacer = (key, value) => value === null ? '' : value // specify how you want to handle null values here
-      const header = Object.keys(data[0]).slice(1)
-      let csv = data.map(row => header.filter(i => i !== 'id').map(fieldName => JSON.stringify(row[fieldName], replacer)).join(','))
-      csv.unshift(header.join(','))
+      let csv = data.map(row => headerKey.map(fieldName => {
+        if (fieldName === 'expired_date') {
+          return JSON.stringify(this.dateFormatter(row[fieldName]), replacer)
+        } else {
+          return JSON.stringify(row[fieldName], replacer)
+        }
+      }).join(','))
+      csv.unshift(headerValue.join(','))
       csv = csv.join('\r\n')
       console.log(csv)
     }
@@ -127,4 +195,8 @@ export default {
 </script>
 
 <style scoped>
+.button-flex {
+  display: flex;
+  justify-content: space-between;
+}
 </style>

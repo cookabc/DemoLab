@@ -34,6 +34,15 @@ module.exports = {
       .then(res => res)
       .catch(error => error)
   },
+  getItemAndStorage() {
+    console.log('Query all items')
+    return knex('cargo_item')
+      .debug()
+      .innerJoin('item_storage', 'cargo_item.id', 'item_storage.item_id')
+      .select()
+      .then(res => res)
+      .catch(error => error)
+  },
   updateItem({ id, item_no, item_name, program_belong, store_temperature }) {
     console.log(`Update item ${item_name}`)
     return knex('cargo_item')
