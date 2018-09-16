@@ -47,6 +47,15 @@ module.exports = {
       .debug()
       .catch(error => error)
   },
+  deleteItem({ id }) {
+    console.log(`Delete item: ${id}`)
+    return knex('cargo_item')
+      .debug()
+      .where({ id })
+      .del()
+      .then(res => res)
+      .catch(error => error)
+  },
 
   //
   createItemStorage({ item_id, store_position, store_number, expired_date, note = '' }) {

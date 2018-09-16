@@ -1,21 +1,10 @@
 const knex = require('knex')(require('../knex'))
 module.exports = {
+  //
   createSuite({ suite_no, suite_name, program_belong }) {
-    console.log(`Add suite ${suite_name}`)
+    console.log(`Add suite: ${suite_name}`)
     return knex('cargo_suite')
       .insert({
-        suite_no,
-        suite_name,
-        program_belong,
-      })
-      .debug()
-      .catch(error => error)
-  },
-  updateSuite({ id, suite_no, suite_name, program_belong }) {
-    console.log(`Update Suite ${suite_name}`)
-    return knex('cargo_suite')
-      .where({ id })
-      .update({
         suite_no,
         suite_name,
         program_belong,
@@ -41,8 +30,31 @@ module.exports = {
       .then(res => res)
       .catch(error => error)
   },
+  updateSuite({ id, suite_no, suite_name, program_belong }) {
+    console.log(`Update suite: ${suite_name}`)
+    return knex('cargo_suite')
+      .where({ id })
+      .update({
+        suite_no,
+        suite_name,
+        program_belong,
+      })
+      .debug()
+      .catch(error => error)
+  },
+  deleteSuite({ id }) {
+    console.log(`Delete suite: ${id}`)
+    return knex('cargo_suite')
+      .debug()
+      .where({ id })
+      .del()
+      .then(res => res)
+      .catch(error => error)
+  },
+
+  //
   createSuiteComponent({ suite_id, item_id, item_number }) {
-    console.log(`Add suite_item_relation: ${suite_id} composed of ${item_number} ${item_id}`)
+    console.log(`Add suite component: ${suite_id} composed of ${item_number} ${item_id}`)
     return knex('suite_item_relation')
       .insert({
         suite_id,
@@ -81,7 +93,7 @@ module.exports = {
       .catch(error => error)
   },
   deleteSuiteComponent({ suite_id, item_id }) {
-    console.log(`Delete component: ${item_id}`)
+    console.log(`Delete suite component: ${item_id}`)
     return knex('suite_item_relation')
       .debug()
       .where({ suite_id, item_id })
