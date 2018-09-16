@@ -1,8 +1,13 @@
 <template>
   <div class="content">
-    <div class="section">
-      <el-button type="primary" @click="$router.push('/')">Home</el-button>
-      <el-button type="primary" @click="$router.go(-1)">Back</el-button>
+    <div class="section button-flex">
+      <div>
+        <el-button type="primary" @click="$router.push('/')">Home</el-button>
+        <el-button type="primary" @click="$router.go(-1)">Back</el-button>
+      </div>
+      <div>
+        <el-button type="primary" @click="toCSV(tableData)">Export CSV</el-button>
+      </div>
     </div>
     <div class="section">
       <el-table :data="tableData" border stripe style="width: 100%">
@@ -45,6 +50,19 @@ export default {
       tableData: [],
       selectedRow: null,
       showUpdateRecord: false,
+      headerEnum: [
+        {create_date: 'Date'},
+        {initiator_name: 'User Name'},
+        {initiator_pos_dep: 'User Position'},
+        {initiator_usage: 'User Purpose'},
+        {item_no: 'Reference No.'},
+        {item_name: 'Product Descriptioin'},
+        {store_temperature: 'Storage Temperature'},
+        {item_position: 'Positioin'},
+        {ship_number: 'Number'},
+        {item_expired_date: 'Expired Date'},
+        {note: 'Note'},
+      ],
     }
   },
   async mounted() {
@@ -109,10 +127,17 @@ export default {
       }
     },
     toCSV(data) {
+      const headerKey = this.headerEnum.map(i => Object.keys(i)[0])
+      const headerValue = this.headerEnum.map(i => Object.values(i)[0])
       const replacer = (key, value) => value === null ? '' : value // specify how you want to handle null values here
-      const header = Object.keys(data[0]).slice(1)
-      let csv = data.map(row => header.filter(i => i !== 'id').map(fieldName => JSON.stringify(row[fieldName], replacer)).join(','))
-      csv.unshift(header.join(','))
+      let csv = data.map(row => headerKey.map(fieldName => {
+        if (fieldName === 'create_date' || fieldName === 'item_expired_date') {
+          return JSON.stringify(this.dateFormatter(row[fieldName]), replacer)
+        } else {
+          return JSON.stringify(row[fieldName], replacer)
+        }
+      }).join(','))
+      csv.unshift(headerValue.join(','))
       csv = csv.join('\r\n')
       console.log(csv)
     }
@@ -121,4 +146,8 @@ export default {
 </script>
 
 <style scoped>
+.button-flex {
+  display: flex;
+  justify-content: space-between;
+}
 </style>

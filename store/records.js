@@ -23,13 +23,17 @@ module.exports = {
       .select([
         'records.id',
         'records.item_id',
-        'records.initiator_name',
-        'records.initiator_usage',
-        'records.ship_number',
         'records.create_date',
+        'records.initiator_name',
+        'records.initiator_pos_dep',
+        'records.initiator_usage',
+        'records.item_position',
+        'records.ship_number',
+        'records.item_expired_date',
         'records.note',
         'item.item_no',
         'item.item_name',
+        'item.store_temperature',
       ])
       .debug()
       .then(res => res)
