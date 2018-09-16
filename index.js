@@ -43,6 +43,16 @@ app.get('/api/getItem', (req, res) => {
       }
     })
 })
+app.get('/api/getItemAndStorage', (req, res) => {
+  storeItem.getItemAndStorage().then(data => {
+    if (data) {
+      res.setHeader('Content-Type', 'application/json')
+      res.send(JSON.stringify({ data }))
+    } else {
+      res.sendStatus(401)
+    }
+  })
+})
 app.post('/api/updateItem', (req, res) => {
   storeItem
     .updateItem({

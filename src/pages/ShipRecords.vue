@@ -6,7 +6,7 @@
         <el-button type="primary" @click="$router.go(-1)">Back</el-button>
       </div>
       <div>
-        <el-button type="primary" @click="toCSV(tableData)">Export CSV</el-button>
+        <el-button type="primary" @click="toCSV(tableData, headerEnum)">Export Records</el-button>
       </div>
     </div>
     <div class="section">
@@ -39,7 +39,7 @@
 <script>
 import UpdateRecord from '@/components/UpdateShipRecord'
 
-const dateFormat = require('dateformat');
+const dateFormat = require('dateformat')
 
 export default {
   components: {
@@ -126,9 +126,9 @@ export default {
         console.warn(error)
       }
     },
-    toCSV(data) {
-      const headerKey = this.headerEnum.map(i => Object.keys(i)[0])
-      const headerValue = this.headerEnum.map(i => Object.values(i)[0])
+    toCSV(data, headerEnum) {
+      const headerKey = headerEnum.map(i => Object.keys(i)[0])
+      const headerValue = headerEnum.map(i => Object.values(i)[0])
       const replacer = (key, value) => value === null ? '' : value // specify how you want to handle null values here
       let csv = data.map(row => headerKey.map(fieldName => {
         if (fieldName === 'create_date' || fieldName === 'item_expired_date') {
