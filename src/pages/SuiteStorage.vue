@@ -5,12 +5,15 @@
       <el-button type="primary" @click="$router.go(-1)">Back</el-button>
     </div>
     <div class="section">
-      <el-date-picker
-        v-model="comparedDate"
-        type="date"
-        placeholder="选择日期"
-        value-format="timestamp">
-      </el-date-picker>
+      <div class="select">
+        <span class="text">Choose Expire Date:</span>
+        <el-date-picker
+          v-model="comparedDate"
+          type="date"
+          placeholder="选择日期"
+          value-format="timestamp">
+        </el-date-picker>
+      </div>
       <el-table :data="tableData" border stripe style="width: 100%">
         <el-table-column prop="suite_no" label="Reference No." width='120px'></el-table-column>
         <el-table-column prop="suite_name" label="Combo Kit Description"></el-table-column>
@@ -30,13 +33,17 @@
     <div class="section">
       <el-table :data="suiteTableData" border stripe style="width: 100%">
         <el-table-column prop="item_no" label="Reference No."></el-table-column>
-        <el-table-column prop="item_name" label="Product Description" width='160px'></el-table-column>
+        <el-table-column prop="item_name" label="Product Description"></el-table-column>
         <el-table-column prop="item_number" label="Item Number"></el-table-column>
         <el-table-column prop="program_belong" label="Item"></el-table-column>
-        <el-table-column prop="store_temperature" label="Storage Temperature" width='170px'></el-table-column>
-        <el-table-column label="Action" width="210px">
+        <el-table-column prop="store_temperature" label="Storage Temperature"></el-table-column>
+        <el-table-column label="Storage" width='100px'>
           <template slot-scope="scope">
-            <el-button type="primary" size="small" @click="viewStorage(scope.row)">View Storage</el-button>
+            <el-button type="primary" size="small" @click="viewStorage(scope.row)">Details</el-button>
+          </template>
+        </el-table-column>
+        <el-table-column label="Action" width="90px">
+          <template slot-scope="scope">
             <el-button type="primary" size="small" @click="deleteComponentConfirm(scope.row)">Delete</el-button>
           </template>
         </el-table-column>
@@ -173,4 +180,12 @@ export default {
 </script>
 
 <style scoped>
+.select {
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+}
+.text {
+  margin-right: 20px;
+}
 </style>

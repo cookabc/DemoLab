@@ -17,9 +17,10 @@
             <el-button type="primary" size="small" @click="viewDetails(scope.row)">Details</el-button>
           </template>
         </el-table-column>
-        <el-table-column label="Action" width='250px'>
+        <el-table-column label="Action" width='340px'>
           <template slot-scope="scope">
             <el-button type="primary" size="small" @click="showUpdate(scope.row)">Update</el-button>
+            <el-button type="primary" size="small" @click="deleteSuiteConfirm(scope.row)">Delete</el-button>
             <el-button type="primary" size="small" @click="createSuiteComponent(scope.row)">Create Component</el-button>
           </template>
         </el-table-column>
@@ -64,6 +65,13 @@ export default {
         console.warn(error)
       }
     },
+    filterHandler(value, row, column) {
+      const property = column['property'];
+      return row[property] > value;
+    },
+    viewDetails(row) {
+      this.$router.push({ name: 'SuiteStorage', query: { suiteId: row.id }})
+    },
     resetRow() {
       this.selectedRow = null
     },
@@ -80,6 +88,35 @@ export default {
       })
       await this.reloadData()
     },
+    deleteSuiteConfirm(row) {
+      this.$confirm('此操作将永久删除该库存记录, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.deleteSuite(row)
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        })
+      })
+    },
+    async deleteSuite(row) {
+      try {
+        const payload = {
+          id: row.id,
+        }
+        await this.$http.post('/deleteSuite', payload)
+        await this.reloadData()
+        this.$message({
+          type: 'success',
+          message: '删除成功!'
+        })
+      } catch (error) {
+        console.warn(error)
+      }
+    },
     createSuiteComponent(row) {
       this.selectedRow = row
       this.showCreateComponentView = true
@@ -91,13 +128,6 @@ export default {
         message: 'Create success',
         type: 'success',
       })
-    },
-    filterHandler(value, row, column) {
-      const property = column['property'];
-      return row[property] > value;
-    },
-    viewDetails(row) {
-      this.$router.push({ name: 'SuiteStorage', query: { suiteId: row.id }})
     },
   },
 };

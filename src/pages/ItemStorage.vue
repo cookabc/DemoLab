@@ -12,7 +12,8 @@
         <el-table-column prop="program_belong" label="Item"></el-table-column>
         <el-table-column prop="store_temperature" label="Storage Temperature"></el-table-column>
       </el-table>
-      <div class="buttons">
+      <div class="buttons tip">
+        <span class="text">Add New Storage:</span>
         <el-button type="primary" size="small" @click="showSaveItem = true">Input</el-button>
       </div>
     </div>
@@ -182,5 +183,12 @@ export default {
 }
 .buttons {
   display: flex;
+  align-items: center;
+}
+.tip {
+  margin-top: 20px;
+}
+.text {
+  margin-right: 20px;
 }
 </style>

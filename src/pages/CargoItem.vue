@@ -13,10 +13,15 @@
         <el-table-column prop="store_temperature" label="Storage Temperature"></el-table-column>
         <el-table-column prop="safe_number" label="Safety Storage"
                          :filters="[{text: 'Has safety storage', value: 0}]" :filter-method="filterHandler"></el-table-column>
-        <el-table-column label="Action" width="230px">
+        <el-table-column label="Storage" width='100px'>
+          <template slot-scope="scope">
+            <el-button type="primary" size="small" @click="viewStorage(scope.row)">Details</el-button>
+          </template>
+        </el-table-column>
+        <el-table-column label="Action" width="180px">
           <template slot-scope="scope">
             <el-button type="primary" size="small" @click="showUpdate(scope.row)">Update</el-button>
-            <el-button type="primary" size="small" @click="viewStorage(scope.row)">View Storage</el-button>
+            <el-button type="primary" size="small" @click="deleteItemConfirm(scope.row)">Delete</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -79,6 +84,35 @@ export default {
     },
     viewStorage(row) {
       this.$router.push({ name: 'ItemStorage', query: { itemId: row.id }})
+    },
+    deleteItemConfirm(row) {
+      this.$confirm('此操作将永久删除该库存记录, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.deleteItem(row)
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        })
+      })
+    },
+    async deleteItem(row) {
+      try {
+        const payload = {
+          id: row.id,
+        }
+        await this.$http.post('/deleteItem', payload)
+        await this.reloadItemData()
+        this.$message({
+          type: 'success',
+          message: '删除成功!'
+        })
+      } catch (error) {
+        console.warn(error)
+      }
     },
     toCSV(data) {
       const replacer = (key, value) => value === null ? '' : value // specify how you want to handle null values here

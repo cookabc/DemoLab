@@ -60,6 +60,15 @@ app.post('/api/updateItem', (req, res) => {
       }
     })
 })
+app.post('/api/deleteItem', (req, res) => {
+  storeItem.deleteItem({ id: req.body.id }).then(data => {
+    if (data.code) {
+      res.status(400).json({ code: data.code, data: null, message: 'Bad Request' })
+    } else {
+      res.status(200).json({ code: 'SUCCESS', data: null, message: 'OK' })
+    }
+  })
+})
 
 //
 app.post('/api/createItemStorage', (req, res) => {
@@ -231,6 +240,15 @@ app.post('/api/updateSuite', (req, res) => {
         res.status(200).json({ code: 'SUCCESS', data: null, message: 'OK' })
       }
     })
+})
+app.post('/api/deleteSuite', (req, res) => {
+  storeSuite.deleteSuite({ id: req.body.id }).then(data => {
+    if (data.code) {
+      res.status(400).json({ code: data.code, data: null, message: 'Bad Request' })
+    } else {
+      res.status(200).json({ code: 'SUCCESS', data: null, message: 'OK' })
+    }
+  })
 })
 
 //
