@@ -1,5 +1,5 @@
 <template>
-  <el-dialog title="Update" :visible="visible" @update:visible="$emit('update:visible', $event)" @close="$emit('resetRow')">
+  <el-dialog title="Input" :visible="visible" @update:visible="$emit('update:visible', $event)">
     <el-form :model="form" ref="form" class="form" label-position="left" label-width="160px" @submit.native.prevent>
       <el-form-item label="Store Position" prop="storePosition" required>
         <el-input v-model="form.storePosition" clearable></el-input>
@@ -14,7 +14,7 @@
         <el-input v-model="form.note" clearable></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="saveItem">Update</el-button>
+        <el-button type="primary" @click="createItemStorage">Input</el-button>
       </el-form-item>
     </el-form>
   </el-dialog>
@@ -24,33 +24,35 @@
 export default {
   props: {
     visible: Boolean,
-    rowData: Object,
+    itemId: String,
   },
   data() {
     return {
       form: {
-        storePosition: this.rowData.store_position || '',
-        storeNumber: this.rowData.store_number || '',
-        expiredDate: this.rowData.expired_date || '',
-        note: this.rowData.note || '',
+        storePosition: '',
+        storeNumber: '',
+        expiredDate: '',
+        note: '',
       },
     }
   },
   methods: {
-    async saveItem() {
+    async createItemStorage() {
       const valid = await this.$refs['form'].validate()
       if(!valid) {
         return
       }
       try {
         const payload = {
-          id: this.rowData.id,
+          itemId: this.itemId,
           storePosition: this.form.storePosition,
           storeNumber: this.form.storeNumber,
           expiredDate: this.form.expiredDate,
           note: this.form.note,
         }
-        await this.$http.post('/updateItemStorage', payload)
+        console.log(payload)
+        await this.$http.post('/createItemStorage', payload)
+        this.$refs.form.resetFields()
         this.$emit('success')
       } catch (error) {
         console.warn(error)

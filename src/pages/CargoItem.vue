@@ -35,12 +35,6 @@ export default {
   data() {
     return {
       tableData: [],
-      itemForm: {
-        itemNo: '',
-        itemName: '',
-        programBelong: '',
-        storeTemperature: '',
-      },
       selectedRow: null,
       showUpdateItem: false,
     }
