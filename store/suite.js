@@ -78,7 +78,7 @@ module.exports = {
       .then(res => res)
       .catch(error => error)
   },
-  getSuiteComponentItemCount({ suite_id = '' }) {
+  getSuiteComponentStorage({ suite_id = '' }) {
     console.log(`Query suite component: ${suite_id}`)
     let queryString = {}
     if (suite_id) {

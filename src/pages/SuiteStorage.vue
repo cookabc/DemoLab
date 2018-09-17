@@ -125,7 +125,7 @@ export default {
         const params = {
           suiteId: this.$route.query.suiteId,
         }
-        const response = await this.$http.get('/getSuiteComponentItemCount', { params })
+        const response = await this.$http.get('/getSuiteComponentStorage', { params })
         this.storagetableData = response.data.data
       } catch (error) {
         console.warn(error)
