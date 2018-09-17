@@ -287,8 +287,8 @@ app.get('/api/getSuiteComponent', (req, res) => {
     }
   })
 })
-app.get('/api/getSuiteComponentItemCount', (req, res) => {
-  storeSuite.getSuiteComponentItemCount({ suite_id: req.query.suiteId }).then(data => {
+app.get('/api/getSuiteComponentStorage', (req, res) => {
+  storeSuite.getSuiteComponentStorage({ suite_id: req.query.suiteId }).then(data => {
     if (data) {
       res.setHeader('Content-Type', 'application/json')
       res.send(JSON.stringify({ data }))
