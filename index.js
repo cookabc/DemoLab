@@ -234,6 +234,16 @@ app.get('/api/getSuite', (req, res) => {
       }
     })
 })
+app.get('/api/getSuiteAndStorage', (req, res) => {
+  storeSuite.getSuiteAndStorage().then(data => {
+    if (data) {
+      res.setHeader('Content-Type', 'application/json')
+      res.send(JSON.stringify({ data }))
+    } else {
+      res.sendStatus(401)
+    }
+  })
+})
 app.post('/api/updateSuite', (req, res) => {
   console.log(req.body)
   storeSuite

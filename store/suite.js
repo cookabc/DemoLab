@@ -30,6 +30,33 @@ module.exports = {
       .then(res => res)
       .catch(error => error)
   },
+  getSuiteAndStorage() {
+    console.log(`Query all suites`)
+    return knex('cargo_suite')
+      .debug()
+      .leftJoin('suite_item_relation', 'cargo_suite.id', 'suite_item_relation.suite_id')
+      .leftJoin('item_storage', 'suite_item_relation.item_id', 'item_storage.item_id')
+      .leftJoin('cargo_item', 'suite_item_relation.item_id', 'cargo_item.id')
+      .select([
+        'cargo_suite.id',
+        'cargo_suite.suite_no',
+        'cargo_suite.suite_name',
+        'cargo_suite.safe_number as safe_suite',
+        'suite_item_relation.item_number',
+        'item_storage.store_position',
+        'item_storage.store_number',
+        'item_storage.expired_date',
+        'item_storage.note',
+        'item_storage.item_id',
+        'cargo_item.item_no',
+        'cargo_item.item_name',
+        'cargo_item.store_temperature',
+        'cargo_item.safe_number as safe_item',
+      ])
+      .orderBy('id', 'asc')
+      .then(res => res)
+      .catch(error => error)
+  },
   updateSuite({ id, suite_no, suite_name, program_belong }) {
     console.log(`Update suite: ${suite_name}`)
     return knex('cargo_suite')
