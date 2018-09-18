@@ -221,7 +221,7 @@ export default {
       let csv = data.map(i => this.cleanData(i, headerEnum))
       csv.unshift(headerValue.join(','))
       csv = csv.join('\r\n')
-      console.log(csv)
+      window.open("data:text/csv;charset=utf-8," + csv)
     }
   },
 };
