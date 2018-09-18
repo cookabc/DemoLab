@@ -170,7 +170,7 @@ export default {
                 expired_date: j.expired_date,
                 note: j.note,
                 safe_stock: j.safe_item,
-                effective: !j.expired_date || j.expired_date >= (new Date()).getTime() ? j.store_number : 0,
+                effective: (!j.expired_date || j.expired_date >= (new Date()).getTime()) && j.store_number ? j.store_number : 0,
                 expired: j.expired_date && j.expired_date < (new Date()).getTime() ? j.store_number : 0,
               }
             })
@@ -201,7 +201,6 @@ export default {
           }
         })
         this.storageData = jsonData
-        console.log(jsonData)
       } catch (error) {
         console.warn(error)
       }
