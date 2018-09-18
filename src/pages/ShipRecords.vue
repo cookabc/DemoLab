@@ -139,7 +139,7 @@ export default {
       }).join(','))
       csv.unshift(headerValue.join(','))
       csv = csv.join('\r\n')
-      console.log(csv)
+      window.open("data:text/csv;charset=utf-8," + csv)
     }
   },
 };
