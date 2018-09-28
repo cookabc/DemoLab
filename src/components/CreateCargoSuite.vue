@@ -1,10 +1,10 @@
 <template>
   <el-dialog title="Create Combo Kit" :visible="visible" @update:visible="$emit('update:visible', $event)">
     <el-form :model="form" ref="form" label-position="left" label-width="160px" @submit.native.prevent>
-      <el-form-item label="Suite No." prop="suiteNo" required>
+      <el-form-item label="Reference No." prop="suiteNo" required>
         <el-input v-model="form.suiteNo" clearable></el-input>
       </el-form-item>
-      <el-form-item label="Suite Name" prop="suiteName" required>
+      <el-form-item label="Product Name" prop="suiteName" required>
         <el-input v-model="form.suiteName" clearable></el-input>
       </el-form-item>
       <el-form-item label="Item" prop="programBelong">

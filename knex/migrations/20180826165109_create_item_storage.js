@@ -8,7 +8,7 @@ exports.up = function(knex) {
       .inTable('cargo_item')
     t.string('store_position').notNullable()
     t.integer('store_number').notNullable()
-    t.timestamp('expired_date').notNullable()
+    t.string('expired_date').notNullable()
     t.string('note')
   })
 }

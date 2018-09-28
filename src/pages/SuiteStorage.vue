@@ -16,7 +16,7 @@
           </el-date-picker>
         </div>
         <div>
-        <el-button type="primary" @click="createSuiteComponent(scope.row)">Create Component</el-button>
+        <el-button type="primary" @click="showCreateComponentView = true">Create Component</el-button>
         </div>
       </div>
       <el-table :data="tableData" border stripe style="width: 100%">
@@ -74,7 +74,7 @@ export default {
       storagetableData: [],
       comparedDate: new Date().getTime(),
       showCreateComponentView: false,
-      selectedRow: null,
+      // selectedRow: null,
     }
   },
   computed: {
@@ -159,10 +159,10 @@ export default {
     viewStorage(row) {
       this.$router.push({ name: 'ItemStorage', query: { itemId: row.item_id }})
     },
-    createSuiteComponent(row) {
-      this.selectedRow = row
-      this.showCreateComponentView = true
-    },
+    // createSuiteComponent(row) {
+    //   this.selectedRow = row
+    //   this.showCreateComponentView = true
+    // },
     componentCreated() {
       this.showCreateComponentView = false
       this.$notify({

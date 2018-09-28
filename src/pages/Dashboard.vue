@@ -1,7 +1,7 @@
 <template>
   <div class="content">
     <div class="section">
-      <div class="title">Ship Records</div>
+      <div class="title">Output Records</div>
       <el-button type="primary" @click="$router.push({ name: 'ShipRecords' })">Display</el-button>
     </div>
     <el-row :gutter="20">
@@ -143,5 +143,9 @@ export default {
   border-bottom: 1px solid #efefef;
   font-size: 18px;
   font-weight: bold;
+}
+.el-button, .el-button--primary {
+  background-color: red;
+  border-color: red;
 }
 </style>
