@@ -23,7 +23,7 @@
             <el-button type="primary" size="small" @click="viewDetails(scope.row)">Details</el-button>
           </template>
         </el-table-column>
-        <el-table-column label="Action" width='180px'>
+        <el-table-column label="Action" width='190px'>
           <template slot-scope="scope">
             <el-button type="primary" size="small" @click="showUpdate(scope.row)">Update</el-button>
             <el-button type="primary" size="small" @click="deleteSuiteConfirm(scope.row)">Delete</el-button>
