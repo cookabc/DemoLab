@@ -5,6 +5,7 @@ import router from './router'
 import http from './plugins/axios'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
+import './assets/element-variables.scss'
 
 Vue.config.productionTip = false
 Vue.use(ElementUI, {
