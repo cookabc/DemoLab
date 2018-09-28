@@ -159,11 +159,8 @@ export default {
     viewStorage(row) {
       this.$router.push({ name: 'ItemStorage', query: { itemId: row.item_id }})
     },
-    // createSuiteComponent(row) {
-    //   this.selectedRow = row
-    //   this.showCreateComponentView = true
-    // },
-    componentCreated() {
+    async componentCreated() {
+      await this.reloadComponentData()
       this.showCreateComponentView = false
       this.$notify({
         title: 'Success',

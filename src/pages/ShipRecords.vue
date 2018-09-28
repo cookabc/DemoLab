@@ -128,7 +128,6 @@ export default {
       }
     },
     toCSV(data, headerEnum) {
-      debugger
       const headerKey = headerEnum.map(i => Object.keys(i)[0])
       const headerValue = headerEnum.map(i => Object.values(i)[0])
       const replacer = (key, value) => value === null ? '' : value // specify how you want to handle null values here
