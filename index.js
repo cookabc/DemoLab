@@ -140,7 +140,7 @@ app.post('/api/shipItem', (req, res) => {
       id: req.body.id,
       ship_number: req.body.shipNumber,
     })
-    .then(() => {
+    .then(data => {
       if (data.code) {
         res.status(400).json({ code: data.code, data: null, message: 'Bad Request' })
       } else {
