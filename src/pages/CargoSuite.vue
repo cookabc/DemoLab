@@ -76,6 +76,7 @@ export default {
   },
   methods: {
     dateFormatter(timestamp) {
+      if (!timestamp) { return null }
       const date = new Date(parseInt(timestamp))
       return dateFormat(date, 'yyyy-mm-dd')
     },
