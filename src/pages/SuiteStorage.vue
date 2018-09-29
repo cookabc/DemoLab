@@ -160,7 +160,7 @@ export default {
       this.$router.push({ name: 'ItemStorage', query: { itemId: row.item_id }})
     },
     async componentCreated() {
-      await this.reloadComponentData()
+      await Promise.all([this.reloadComponentData(), this.reloadStorageData()])
       this.showCreateComponentView = false
       this.$notify({
         title: 'Success',

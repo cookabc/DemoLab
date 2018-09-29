@@ -1,7 +1,7 @@
 const knex = require('knex')(require('../knex'))
 module.exports = {
   //
-  createItem({ item_no, item_name, program_belong, store_temperature }) {
+  createItem({ item_no, item_name, program_belong, store_temperature, safe_number }) {
     console.log(`Add item ${item_name}`)
     return knex('cargo_item')
       .insert({
@@ -9,6 +9,7 @@ module.exports = {
         item_name,
         program_belong,
         store_temperature,
+        safe_number,
       })
       .debug()
       .catch(error => error)
@@ -43,7 +44,7 @@ module.exports = {
       .then(res => res)
       .catch(error => error)
   },
-  updateItem({ id, item_no, item_name, program_belong, store_temperature }) {
+  updateItem({ id, item_no, item_name, program_belong, store_temperature, safe_number }) {
     console.log(`Update item ${item_name}`)
     return knex('cargo_item')
       .where({ id })
@@ -52,6 +53,7 @@ module.exports = {
         item_name,
         program_belong,
         store_temperature,
+        safe_number,
       })
       .debug()
       .catch(error => error)

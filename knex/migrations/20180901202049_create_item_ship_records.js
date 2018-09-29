@@ -8,8 +8,6 @@ exports.up = function(knex) {
     t.string('initiator_usage').notNullable()
     t.string('create_date').notNullable()
     t.integer('ship_number').notNullable()
-    t.string('item_position')
-    t.string('item_expired_date')
     t.string('note')
   })
 }

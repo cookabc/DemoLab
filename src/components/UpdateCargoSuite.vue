@@ -1,7 +1,7 @@
 <template>
   <el-dialog title="Update Combo Kit" :visible="visible" @update:visible="$emit('update:visible', $event)" @close="$emit('resetRow')">
     <el-form :model="form" ref="form" label-position="left" label-width="180px" @submit.native.prevent>
-      <el-form-item label="Reference No." prop="suiteNo" required>
+      <el-form-item label="Reference No." prop="suiteNo">
         <el-input v-model="form.suiteNo" clearable></el-input>
       </el-form-item>
       <el-form-item label="Combo Kit Description" prop="suiteName" required>
@@ -9,6 +9,9 @@
       </el-form-item>
       <el-form-item label="Item" prop="programBelong">
         <el-input v-model="form.programBelong" clearable></el-input>
+      </el-form-item>
+      <el-form-item label="Safety Storage" prop="safeNumber">
+        <el-input v-model="form.safeNumber" clearable></el-input>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="updateSuite">Update</el-button>
@@ -29,6 +32,7 @@ export default {
         suiteNo: this.rowData.suite_no || '',
         suiteName: this.rowData.suite_name || '',
         programBelong: this.rowData.program_belong || '',
+        safeNumber: this.rowData.safe_number || '',
       },
     }
   },
@@ -44,6 +48,7 @@ export default {
           suiteNo: this.form.suiteNo,
           suiteName: this.form.suiteName,
           programBelong: this.form.programBelong,
+          safeNumber: this.form.safeNumber,
         }
         await this.$http.post('/updateSuite', payload)
         this.$emit('success')

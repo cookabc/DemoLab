@@ -20,6 +20,7 @@ module.exports = {
     console.log(`Query shipping records`)
     return knex('item_ship_records as records')
       .innerJoin('cargo_item as item', 'item.id', 'records.item_id')
+      .innerJoin('item_storage as storage', 'storage.id', 'records.item_storage_id')
       .select([
         'records.id',
         'records.item_id',
@@ -27,10 +28,10 @@ module.exports = {
         'records.initiator_name',
         'records.initiator_pos_dep',
         'records.initiator_usage',
-        'records.item_position',
         'records.ship_number',
-        'records.item_expired_date',
         'records.note',
+        'storage.store_position',
+        'storage.expired_date',
         'item.item_no',
         'item.item_name',
         'item.store_temperature',
