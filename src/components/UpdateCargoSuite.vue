@@ -48,7 +48,7 @@ export default {
           suiteNo: this.form.suiteNo,
           suiteName: this.form.suiteName,
           programBelong: this.form.programBelong,
-          safeNumber: this.form.safeNumber,
+          safeNumber: this.form.safeNumber || null,
         }
         await this.$http.post('/updateSuite', payload)
         this.$emit('success')

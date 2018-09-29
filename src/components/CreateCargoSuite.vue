@@ -4,7 +4,7 @@
       <el-form-item label="Reference No." prop="suiteNo">
         <el-input v-model="form.suiteNo" clearable></el-input>
       </el-form-item>
-      <el-form-item label="Product Name" prop="suiteName" required>
+      <el-form-item label="Product Description" prop="suiteName" required>
         <el-input v-model="form.suiteName" clearable></el-input>
       </el-form-item>
       <el-form-item label="Item" prop="programBelong">
@@ -46,7 +46,7 @@ export default {
           suiteNo: this.form.suiteNo,
           suiteName: this.form.suiteName,
           programBelong: this.form.programBelong,
-          safeNumber: this.form.safeNumber,
+          safeNumber: this.form.safeNumber || null,
         }
         await this.$http.post('/createSuite', payload)
         this.$refs.form.resetFields()

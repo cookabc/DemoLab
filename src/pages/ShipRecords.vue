@@ -22,7 +22,7 @@
         <el-table-column prop="initiator_usage" label="Usage"></el-table-column>
         <el-table-column prop="item_no" label="Reference No."></el-table-column>
         <el-table-column prop="item_name" label="Product Description"></el-table-column>
-        <el-table-column prop="ship_number" label="Ship Number"></el-table-column>
+        <el-table-column prop="ship_number" label="Output Number"></el-table-column>
         <el-table-column prop="note" label="Note"></el-table-column>
         <el-table-column label="Action" width="180px">
           <template slot-scope="scope">

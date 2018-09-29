@@ -51,7 +51,7 @@ export default {
           itemName: this.form.itemName,
           programBelong: this.form.programBelong,
           storeTemperature: this.form.storeTemperature,
-          safeNumber: this.form.safeNumber,
+          safeNumber: this.form.safeNumber || null,
         }
         await this.$http.post('/createItem', payload)
         this.$refs.form.resetFields()
