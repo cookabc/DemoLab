@@ -1,7 +1,7 @@
 <template>
   <el-dialog title="Create Product" :visible="visible" @update:visible="$emit('update:visible', $event)">
     <el-form :model="form" ref="form" label-position="left" label-width="160px" @submit.native.prevent>
-      <el-form-item label="Reference No." prop="itemNo" required>
+      <el-form-item label="Reference No." prop="itemNo">
         <el-input v-model="form.itemNo" clearable></el-input>
       </el-form-item>
       <el-form-item label="Product Description" prop="itemName" required>
@@ -10,8 +10,11 @@
       <el-form-item label="Item" prop="programBelong">
         <el-input v-model="form.programBelong" clearable></el-input>
       </el-form-item>
-      <el-form-item label="Storage Temperature" prop="storeTemperature" required>
+      <el-form-item label="Storage Temperature" prop="storeTemperature">
         <el-input v-model="form.storeTemperature" clearable></el-input>
+      </el-form-item>
+      <el-form-item label="Safety Storage" prop="safeNumber">
+        <el-input v-model="form.safeNumber" clearable></el-input>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="createItem">Create</el-button>
@@ -32,6 +35,7 @@ export default {
         itemName: '',
         programBelong: '',
         storeTemperature: '',
+        safeNumber: '',
       },
     }
   },
@@ -47,6 +51,7 @@ export default {
           itemName: this.form.itemName,
           programBelong: this.form.programBelong,
           storeTemperature: this.form.storeTemperature,
+          safeNumber: this.form.safeNumber || null,
         }
         await this.$http.post('/createItem', payload)
         this.$refs.form.resetFields()

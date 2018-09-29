@@ -22,7 +22,7 @@
         <el-table-column prop="initiator_usage" label="Usage"></el-table-column>
         <el-table-column prop="item_no" label="Reference No."></el-table-column>
         <el-table-column prop="item_name" label="Product Description"></el-table-column>
-        <el-table-column prop="ship_number" label="Ship Number"></el-table-column>
+        <el-table-column prop="ship_number" label="Output Number"></el-table-column>
         <el-table-column prop="note" label="Note"></el-table-column>
         <el-table-column label="Action" width="180px">
           <template slot-scope="scope">
@@ -58,9 +58,9 @@ export default {
         {item_no: 'Reference No.'},
         {item_name: 'Product Descriptioin'},
         {store_temperature: 'Storage Temperature'},
-        {item_position: 'Positioin'},
+        {store_position: 'Positioin'},
         {ship_number: 'Number'},
-        {item_expired_date: 'Expired Date'},
+        {expired_date: 'Expired Date'},
         {note: 'Note'},
       ],
     }
@@ -132,7 +132,7 @@ export default {
       const headerValue = headerEnum.map(i => Object.values(i)[0])
       const replacer = (key, value) => value === null ? '' : value // specify how you want to handle null values here
       let csv = data.map(row => headerKey.map(fieldName => {
-        if (fieldName === 'create_date' || fieldName === 'item_expired_date') {
+        if (fieldName === 'create_date' || fieldName === 'expired_date') {
           return JSON.stringify(this.dateFormatter(row[fieldName]), replacer)
         } else {
           return JSON.stringify(row[fieldName], replacer)

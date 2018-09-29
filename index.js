@@ -15,6 +15,7 @@ app.post('/api/createItem', (req, res) => {
       item_name: req.body.itemName,
       program_belong: req.body.programBelong,
       store_temperature: req.body.storeTemperature,
+      safe_number: req.body.safeNumber,
     })
     .then(data => {
       console.log(data)
@@ -61,6 +62,7 @@ app.post('/api/updateItem', (req, res) => {
       item_name: req.body.itemName,
       program_belong: req.body.programBelong,
       store_temperature: req.body.storeTemperature,
+      safe_number: req.body.safeNumber,
     })
     .then(data => {
       if (data.code) {
@@ -208,6 +210,7 @@ app.post('/api/createSuite', (req, res) => {
       suite_no: req.body.suiteNo,
       suite_name: req.body.suiteName,
       program_belong: req.body.programBelong,
+      safe_number: req.body.safeNumber,
     })
     .then(data => {
       if (data.code) {
@@ -252,6 +255,7 @@ app.post('/api/updateSuite', (req, res) => {
       suite_no: req.body.suiteNo,
       suite_name: req.body.suiteName,
       program_belong: req.body.programBelong,
+      safe_number: req.body.safeNumber,
     })
     .then(data => {
       if (data.code) {

@@ -7,8 +7,10 @@ exports.up = function(knex) {
     t.string('initiator_pos_dep').notNullable()
     t.string('initiator_usage').notNullable()
     t.string('create_date').notNullable()
+    t.integer('ship_number').notNullable()
+    t.string('note')
   })
 }
 exports.down = function(knex) {
-  return knex.schema.dropTableIfExists('cargo_item')
+  return knex.schema.dropTableIfExists('item_ship_records')
 }

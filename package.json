@@ -23,6 +23,7 @@
     "@vue/cli-plugin-babel": "^3.0.1",
     "@vue/cli-service": "^3.0.1",
     "@vue/eslint-config-airbnb": "^3.0.1",
+    "@vue/eslint-config-standard": "^3.0.4",
     "babel-plugin-component": "^1.1.1",
     "eslint": "^5.4.0",
     "node-sass": "^4.9.3",

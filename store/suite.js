@@ -1,13 +1,14 @@
 const knex = require('knex')(require('../knex'))
 module.exports = {
   //
-  createSuite({ suite_no, suite_name, program_belong }) {
+  createSuite({ suite_no, suite_name, program_belong, safe_number }) {
     console.log(`Add suite: ${suite_name}`)
     return knex('cargo_suite')
       .insert({
         suite_no,
         suite_name,
         program_belong,
+        safe_number,
       })
       .debug()
       .catch(error => error)
@@ -57,7 +58,7 @@ module.exports = {
       .then(res => res)
       .catch(error => error)
   },
-  updateSuite({ id, suite_no, suite_name, program_belong }) {
+  updateSuite({ id, suite_no, suite_name, program_belong, safe_number }) {
     console.log(`Update suite: ${suite_name}`)
     return knex('cargo_suite')
       .where({ id })
@@ -65,6 +66,7 @@ module.exports = {
         suite_no,
         suite_name,
         program_belong,
+        safe_number,
       })
       .debug()
       .catch(error => error)
