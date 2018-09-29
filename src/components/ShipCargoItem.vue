@@ -13,6 +13,9 @@
       <el-form-item label="User Purpose" prop="initiatorUsage" required>
         <el-input v-model="form.initiatorUsage" clearable></el-input>
       </el-form-item>
+      <el-form-item label="Note" prop="note" required>
+        <el-input v-model="form.note" clearable></el-input>
+      </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="shipItem">Output</el-button>
       </el-form-item>
@@ -34,6 +37,7 @@ export default {
         initiatorName: '',
         initiatorPosDep: '',
         initiatorUsage: '',
+        note: '',
       },
     }
   },
@@ -51,6 +55,7 @@ export default {
           initiatorName: this.form.initiatorName,
           initiatorPosDep: this.form.initiatorPosDep,
           initiatorUsage: this.form.initiatorUsage,
+          note: this.form.note,
         }
         await this.$http.post('/shipItem', payload)
         this.$refs.form.resetFields()

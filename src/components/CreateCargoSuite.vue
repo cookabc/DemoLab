@@ -1,7 +1,7 @@
 <template>
   <el-dialog title="Create Combo Kit" :visible="visible" @update:visible="$emit('update:visible', $event)">
     <el-form :model="form" ref="form" label-position="left" label-width="160px" @submit.native.prevent>
-      <el-form-item label="Reference No." prop="suiteNo" required>
+      <el-form-item label="Reference No." prop="suiteNo">
         <el-input v-model="form.suiteNo" clearable></el-input>
       </el-form-item>
       <el-form-item label="Product Name" prop="suiteName" required>
@@ -9,6 +9,9 @@
       </el-form-item>
       <el-form-item label="Item" prop="programBelong">
         <el-input v-model="form.programBelong" clearable></el-input>
+      </el-form-item>
+      <el-form-item label="Safety Storage" prop="safeNumber">
+        <el-input v-model="form.safeNumber" clearable></el-input>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="createSuite">Create</el-button>
@@ -28,6 +31,7 @@ export default {
         suiteNo: '',
         suiteName: '',
         programBelong: '',
+        safeNumber: '',
       },
     }
   },
@@ -42,6 +46,7 @@ export default {
           suiteNo: this.form.suiteNo,
           suiteName: this.form.suiteName,
           programBelong: this.form.programBelong,
+          safeNumber: this.form.safeNumber,
         }
         await this.$http.post('/createSuite', payload)
         this.$refs.form.resetFields()
