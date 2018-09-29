@@ -1,22 +1,10 @@
 const knex = require('knex')(require('../knex'))
 module.exports = {
+  //
   createItem({ item_no, item_name, program_belong, store_temperature }) {
     console.log(`Add item ${item_name}`)
     return knex('cargo_item')
       .insert({
-        item_no,
-        item_name,
-        program_belong,
-        store_temperature,
-      })
-      .debug()
-      .catch(error => error)
-  },
-  updateItem({ id, item_no, item_name, program_belong, store_temperature }) {
-    console.log(`Update item ${item_name}`)
-    return knex('cargo_item')
-      .where({ id })
-      .update({
         item_no,
         item_name,
         program_belong,
@@ -34,25 +22,53 @@ module.exports = {
     if (item_no) {
       queryString.item_no = item_no
     }
-    // if (item_name) {
-    //   queryString.item_name = item_name
-    // }
-    if (program_belong) {
-      queryString.program_belong = program_belong
-    }
     if (store_temperature) {
       queryString.store_temperature = store_temperature
     }
     return knex('cargo_item')
       .debug()
       .where('item_name', 'like', `%${item_name}%`)
+      .andWhere('program_belong', 'like', `%${program_belong}%`)
       .andWhere(queryString)
       .select()
       .then(res => res)
       .catch(error => error)
   },
-  saveItem({ item_id, store_position, store_number, expired_date, note = '' }) {
-    console.log(`Save item: ${item_id}`)
+  getItemAndStorage() {
+    console.log('Query all items')
+    return knex('cargo_item')
+      .debug()
+      .innerJoin('item_storage', 'cargo_item.id', 'item_storage.item_id')
+      .select()
+      .then(res => res)
+      .catch(error => error)
+  },
+  updateItem({ id, item_no, item_name, program_belong, store_temperature }) {
+    console.log(`Update item ${item_name}`)
+    return knex('cargo_item')
+      .where({ id })
+      .update({
+        item_no,
+        item_name,
+        program_belong,
+        store_temperature,
+      })
+      .debug()
+      .catch(error => error)
+  },
+  deleteItem({ id }) {
+    console.log(`Delete item: ${id}`)
+    return knex('cargo_item')
+      .debug()
+      .where({ id })
+      .del()
+      .then(res => res)
+      .catch(error => error)
+  },
+
+  //
+  createItemStorage({ item_id, store_position, store_number, expired_date, note = '' }) {
+    console.log(`Create item storage: ${item_id}`)
     return knex('item_storage')
       .insert({
         item_id,
@@ -77,17 +93,8 @@ module.exports = {
       .then(res => res)
       .catch(error => error)
   },
-  shipItem({ id, ship_number = 0 }) {
-    console.log(`Ship item: ${id}`)
-    return knex('item_storage')
-      .debug()
-      .where('id', id)
-      .decrement('store_number', ship_number)
-      .then(res => res)
-      .catch(error => error)
-  },
   updateItemStorage({ id, store_position, store_number, expired_date, note = '' }) {
-    console.log(`Update item: ${id}`)
+    console.log(`Update item storage: ${id}`)
     return knex('item_storage')
       .where({ id })
       .update({
@@ -100,26 +107,21 @@ module.exports = {
       .catch(error => error)
   },
   deleteItemStorage({ id }) {
-    console.log(`Delete item: ${id}`)
+    console.log(`Delete item storage: ${id}`)
     return knex('item_storage')
       .debug()
-      .where('id', id)
+      .where({ id })
       .del()
       .then(res => res)
       .catch(error => error)
   },
-  shipRecords({ item_id, item_storage_id, initiator_name, initiator_pos_dep, initiator_usage, create_date = new Date() }) {
-    console.log(`Record shipping: ${item_id}`)
-    return knex('item_ship_records')
-      .insert({
-        item_id,
-        item_storage_id,
-        initiator_name,
-        initiator_pos_dep,
-        initiator_usage,
-        create_date,
-      })
+  shipItem({ id, ship_number = 0 }) {
+    console.log(`Ship item storage: ${id}`)
+    return knex('item_storage')
       .debug()
+      .where({ id })
+      .decrement('store_number', ship_number)
+      .then(res => res)
       .catch(error => error)
   },
 }

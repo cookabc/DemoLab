@@ -7,6 +7,7 @@ import CargoItem from '@/pages/CargoItem'
 import CargoSuite from '@/pages/CargoSuite'
 import ItemStorage from '@/pages/ItemStorage'
 import SuiteStorage from '@/pages/SuiteStorage'
+import ShipRecords from '@/pages/ShipRecords'
 
 Vue.use(Router)
 
@@ -37,6 +38,11 @@ const router = new Router({
       path: '/suite-storage',
       name: 'SuiteStorage',
       component: SuiteStorage,
+    },
+    {
+      path: '/ship-records',
+      name: 'ShipRecords',
+      component: ShipRecords,
     },
   ],
 })

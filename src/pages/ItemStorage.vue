@@ -12,7 +12,8 @@
         <el-table-column prop="program_belong" label="Item"></el-table-column>
         <el-table-column prop="store_temperature" label="Storage Temperature"></el-table-column>
       </el-table>
-      <div class="buttons">
+      <div class="buttons tip">
+        <span class="text">Add New Storage:</span>
         <el-button type="primary" size="small" @click="showSaveItem = true">Input</el-button>
       </div>
     </div>
@@ -51,8 +52,8 @@
 </template>
 
 <script>
-import SaveItem from '@/components/SaveCargoItem'
-import UpdateItem from '@/components/UpdateCargoStorage'
+import SaveItem from '@/components/CreateItemStorage'
+import UpdateItem from '@/components/UpdateItemStorage'
 import ShipItem from '@/components/ShipCargoItem'
 
 const dateFormat = require('dateformat');
@@ -78,6 +79,7 @@ export default {
   },
   methods: {
     dateFormatter(timestamp) {
+      if (!timestamp) { return null }
       const date = new Date(parseInt(timestamp))
       return dateFormat(date, 'yyyy-mm-dd')
     },
@@ -147,7 +149,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.dedeleteStorage(row)
+        this.deleteStorage(row)
       }).catch(() => {
         this.$message({
           type: 'info',
@@ -155,7 +157,7 @@ export default {
         })
       })
     },
-    async dedeleteStorage(row) {
+    async deleteStorage(row) {
       try {
         const payload = {
           id: row.id,
@@ -182,5 +184,12 @@ export default {
 }
 .buttons {
   display: flex;
+  align-items: center;
+}
+.tip {
+  margin-top: 20px;
+}
+.text {
+  margin-right: 20px;
 }
 </style>
