@@ -17,8 +17,14 @@
         <el-table-column prop="item_name" label="Product Description"></el-table-column>
         <el-table-column prop="program_belong" label="Item"></el-table-column>
         <el-table-column prop="store_temperature" label="Storage Temperature"></el-table-column>
-        <el-table-column prop="safe_number" label="Safety Storage"
-                         :filters="[{text: 'Has safety storage', value: 0}]" :filter-method="filterHandler"></el-table-column>
+        <el-table-column prop="safe_number" label="Safety Storage" width="250px"
+                         :filters="[{text: 'Has safety storage', value: 0}]" :filter-method="filterHandler">
+          <template slot-scope="scope">
+            {{ scope.row.safe_number }}
+            <el-alert v-if="scope.row.safe_number && scope.row.safe_number > scope.row.total_storage" title="Insufficient Storage" type="warning" show-icon>
+            </el-alert>
+          </template>
+        </el-table-column>
         <el-table-column label="Storage" width='100px'>
           <template slot-scope="scope">
             <el-button type="primary" size="small" @click="viewStorage(scope.row)">Details</el-button>
@@ -93,7 +99,8 @@ export default {
     },
   },
   async mounted() {
-    await Promise.all([this.reloadItemData(), this.getItemAndStorage()])
+    await this.getItemAndStorage()
+    await this.reloadItemData()
   },
   methods: {
     dateFormatter(timestamp) {
@@ -111,9 +118,20 @@ export default {
         }
         const response = await this.$http.get('/getItem', { params })
         this.tableData = response.data.data
+        this.tableData = this.tableData.map(item => {
+          item.total_storage = this.calcTotalStorage(item.item_no)
+          return item
+        })
+        console.log(this.csvData)
+        console.log(this.tableData)
       } catch (error) {
         console.warn(error)
       }
+    },
+    calcTotalStorage(itemNo) {
+      return this.csvData.filter(i => i.item_no === itemNo)
+                  .map(i => i.store_number)
+                  .reduce((a, b) => a + b, 0)
     },
     resetRow() {
       this.selectedRow = null
